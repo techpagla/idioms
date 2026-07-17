@@ -1,0 +1,3433 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idiom Flashcards — বাগধারা কার্ড</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    :root{
+    --ink:#050505;
+    --ink-2:#151515;
+    --parchment:#FFFFFF;
+    --parchment-line:#D6D6D6;
+    --accent-d:#FFFFFF;
+    --accent-l:#000000;
+    --ink-soft:#8C8C8C;
+    --white:#F2F2F2;
+    --line-dark:rgba(255,255,255,0.14);
+    --radius:18px;
+    --font-scale:1;
+    --card-bg:#FFFFFF;
+    --card-text:#000000;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  html,body{ height:100%; }
+  body{
+    background:var(--ink);
+    height:100dvh;
+    height:100vh;
+    font-family:'Inter', sans-serif;
+    color:var(--white);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:18px 16px calc(14px + env(safe-area-inset-bottom));
+    overflow:hidden;
+  }
+
+  .bangla{ font-family:'Hind Siliguri', sans-serif; }
+
+  .top-bar{
+    width:100%;
+    max-width:560px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    flex-shrink:0;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+  }
+  .top-bar .list-toggle-btn{ flex:1 1 100px; justify-content:center; white-space:nowrap; }
+
+  .day-badge{
+    width:100%;
+    max-width:560px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--ink-2);
+    border:1px solid rgba(255,255,255,0.16);
+    border-radius:12px;
+    padding:8px 14px;
+    margin-bottom:10px;
+    flex-shrink:0;
+    font-size:14px;
+    font-weight:600;
+  }
+  .day-badge button{
+    background:none;
+    border:none;
+    color:#B3B3B3;
+    font-size:16px;
+    cursor:pointer;
+    line-height:1;
+    padding:2px 6px;
+  }
+  .day-badge button:hover{ color:var(--white); }
+  .day-badge-actions{ display:flex; align-items:center; gap:6px; }
+  .day-badge button.day-badge-exam-btn{
+    background:#FFFFFF;
+    color:#000000;
+    font-size:13px;
+    font-weight:700;
+    padding:6px 14px;
+    border-radius:14px;
+    cursor:pointer;
+  }
+  .day-badge button.day-badge-exam-btn:disabled{
+    background:rgba(255,255,255,0.1);
+    color:#6A6A6A;
+    cursor:not-allowed;
+  }
+  .day-badge button.day-badge-exam-btn:hover:not(:disabled){ opacity:0.85; }
+
+  .fullscreen-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--ink-2);
+    border:1px solid rgba(255,255,255,0.14);
+    color:var(--white);
+    width:38px; height:38px;
+    border-radius:50%;
+    cursor:pointer;
+    flex-shrink:0;
+    transition:background .2s;
+  }
+  .fullscreen-btn:hover{ background:#232323; }
+  .fullscreen-btn svg{ width:17px; height:17px; }
+
+  /* ---------- Header ---------- */
+  header{ display:none; }
+  .eyebrow{
+    font-size:12.5px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--white);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(24px,5vw,32px);
+    margin:0 0 4px;
+    text-align:center;
+    letter-spacing:-0.01em;
+    color:var(--white);
+  }
+  .sub{
+    color:#B3B3B3;
+    font-size:14px;
+    text-align:center;
+  }
+
+  /* ---------- Deck meta bar ---------- */
+  .meta-bar{
+    width:100%;
+    max-width:560px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:10px;
+    font-size:14.5px;
+    color:#B3B3B3;
+    flex-shrink:0;
+  }
+  .meta-bar .count strong{ color:var(--white); font-weight:700; }
+  .star-count-btn{
+    background:none;
+    border:1px solid var(--line-dark);
+    color:var(--white);
+    font-size:14px;
+    font-weight:600;
+    padding:5px 12px;
+    border-radius:14px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:5px;
+    transition:background .2s, border-color .2s;
+    flex-shrink:0;
+  }
+  .star-count-btn:hover{ background:var(--ink-2); border-color:rgba(255,255,255,0.3); }
+  .progress-track{
+    flex:1;
+    height:4px;
+    background:rgba(255,255,255,0.1);
+    border-radius:2px;
+    margin:0 14px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--white);
+    border-radius:2px;
+    transition:width .35s ease;
+  }
+
+  /* ---------- Card scene ---------- */
+  .scene{
+    width:100%;
+    max-width:560px;
+    perspective:1800px;
+    touch-action:pan-y;
+    flex:1;
+    min-height:0;
+    display:flex;
+  }
+  .card{
+    position:relative;
+    width:100%;
+    height:100%;
+    transform-style:preserve-3d;
+    transition:transform .55s cubic-bezier(.4,.15,.2,1);
+    cursor:pointer;
+  }
+  .card.flipped{ transform:rotateY(180deg); }
+
+  .face{
+    position:absolute;
+    inset:0;
+    border-radius:var(--radius);
+    backface-visibility:hidden;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.1);
+    box-shadow:0 20px 40px -12px rgba(0,0,0,0.7);
+  }
+
+  /* front face */
+  .front{
+    background:var(--card-bg);
+    color:var(--card-text);
+    display:flex;
+    flex-direction:column;
+    padding:26px 30px 30px;
+    border:1px solid var(--card-text);
+  }
+  .front::before{
+    /* punch holes, like an index card */
+    content:"";
+    position:absolute;
+    left:14px; top:0; bottom:0; width:2px;
+    background:repeating-linear-gradient(to bottom, var(--card-text) 0 6px, transparent 6px 14px);
+    opacity:.18;
+  }
+  .tab{
+    align-self:flex-start;
+    background:var(--card-text);
+    color:var(--card-bg);
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:calc(14.5px * var(--font-scale));
+    padding:5px 13px 6px;
+    border-radius:0 0 8px 8px;
+    letter-spacing:.03em;
+    margin-left:34px;
+  }
+  .front-main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding-top:6px;
+  }
+  .idiom-text{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:calc(clamp(34px,7.5vw,46px) * var(--font-scale));
+    line-height:1.16;
+    color:var(--card-text);
+  }
+  .idiom-hint{
+    margin-top:18px;
+    font-size:calc(13.5px * var(--font-scale));
+    color:var(--card-text);
+    opacity:0.65;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .idiom-hint svg{ width:15px; height:15px; opacity:.7; }
+
+  .front-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:calc(12.5px * var(--font-scale));
+    color:var(--card-text);
+    opacity:0.65;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    border-top:1px dashed var(--parchment-line);
+    padding-top:12px;
+    margin-top:10px;
+  }
+  .star-btn{
+    background:none; border:none; cursor:pointer;
+    font-size:24px; color:#C9C9C9; line-height:1;
+    padding:2px;
+  }
+  .star-btn.active{ color:var(--card-text); }
+
+  /* back face */
+  .back{
+    background:var(--card-bg);
+    color:var(--card-text);
+    transform:rotateY(180deg);
+    padding:22px 26px;
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+    overflow-y:auto;
+    border:1px solid var(--card-text);
+  }
+  .back::-webkit-scrollbar{ width:5px; }
+  .back::-webkit-scrollbar-thumb{ background:rgba(0,0,0,0.2); border-radius:3px; }
+
+  .back-idiom{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:calc(17px * var(--font-scale));
+    color:var(--card-text);
+    padding-bottom:8px;
+    border-bottom:1px solid var(--parchment-line);
+  }
+
+  .field{ display:flex; flex-direction:column; gap:3px; }
+  .field-label{
+    font-size:calc(12px * var(--font-scale));
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    font-weight:700;
+    color:var(--card-text);
+    opacity:0.55;
+  }
+  .field-label.alt{ color:var(--card-text); opacity:1; }
+  .field-value{ font-size:calc(17px * var(--font-scale)); line-height:1.55; color:var(--card-text); }
+  #banglaMeaning.field-value{ font-size:calc(22px * var(--font-scale)); font-weight:600; line-height:1.5; }
+  .field-value.eng{ font-family:'Inter'; font-size:calc(16px * var(--font-scale)); color:var(--card-text); opacity:0.82; }
+  .field-value.sent-en{ font-style:italic; color:var(--card-text); opacity:0.75; font-size:calc(15.5px * var(--font-scale)); }
+
+  /* ---------- Controls ---------- */
+  .controls{
+    width:100%;
+    max-width:560px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-top:14px;
+    flex-shrink:0;
+  }
+  .ctrl-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--ink-2);
+    border:1px solid rgba(255,255,255,0.14);
+    color:var(--white);
+    width:50px; height:50px;
+    border-radius:50%;
+    cursor:pointer;
+    transition:background .2s, transform .15s;
+  }
+  .ctrl-btn:hover{ background:#232323; }
+  .ctrl-btn:active{ transform:scale(0.92); }
+  .ctrl-btn svg{ width:21px; height:21px; }
+  .ctrl-btn.favorites-active{ background:#FFFFFF; color:#000000; border-color:#FFFFFF; }
+
+  .flip-label-btn{
+    flex:1;
+    max-width:220px;
+    height:50px;
+    border-radius:25px;
+    border:1px solid #FFFFFF;
+    background:#FFFFFF;
+    color:#000000;
+    font-family:'Inter';
+    font-weight:700;
+    font-size:16px;
+    cursor:pointer;
+    letter-spacing:.02em;
+  }
+  .flip-label-btn:active{ transform:scale(0.97); }
+
+  /* dots */
+  .dots{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    justify-content:center;
+    max-width:560px;
+    margin-top:12px;
+    max-height:34px;
+    overflow-y:auto;
+    padding:2px;
+    flex-shrink:0;
+  }
+  .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:rgba(255,255,255,0.18);
+    cursor:pointer;
+    transition:background .2s, transform .2s;
+    flex-shrink:0;
+  }
+  .dot.active{ background:#FFFFFF; transform:scale(1.5); }
+  .dot.starred{ background:#8C8C8C; }
+
+  /* ---------- List toggle button ---------- */
+  .list-toggle-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--ink-2);
+    border:1px solid rgba(255,255,255,0.14);
+    color:var(--white);
+    font-size:13.5px;
+    font-weight:500;
+    padding:8px 16px;
+    border-radius:20px;
+    cursor:pointer;
+    transition:background .2s, border-color .2s;
+    flex-shrink:0;
+  }
+  .list-toggle-btn:hover{ background:#232323; border-color:rgba(255,255,255,0.3); }
+  .list-toggle-btn svg{ width:16px; height:16px; opacity:.85; }
+
+  /* ---------- List overlay ---------- */
+  .list-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.82);
+    backdrop-filter:blur(4px);
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:40px 16px;
+    z-index:50;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .22s ease;
+  }
+  .list-overlay.open{ opacity:1; pointer-events:auto; }
+
+  .list-panel{
+    width:100%;
+    max-width:600px;
+    max-height:85vh;
+    background:var(--ink-2);
+    border:1px solid rgba(255,255,255,0.14);
+    border-radius:20px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.8);
+    transform:translateY(-14px);
+    transition:transform .25s ease;
+  }
+  .list-overlay.open .list-panel{ transform:translateY(0); }
+
+  .list-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 20px 14px;
+    border-bottom:1px solid rgba(255,255,255,0.12);
+  }
+  .list-header h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:20px;
+    margin:0;
+    color:var(--white);
+  }
+  .close-btn{
+    background:none;
+    border:none;
+    color:#B3B3B3;
+    cursor:pointer;
+    width:32px; height:32px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%;
+  }
+  .close-btn:hover{ background:rgba(255,255,255,0.1); color:var(--white); }
+  .close-btn svg{ width:19px; height:19px; }
+
+  .search-wrap{
+    padding:14px 20px;
+    border-bottom:1px solid rgba(255,255,255,0.12);
+    position:relative;
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+  .search-input-wrap{ flex:1; position:relative; }
+  .search-input-wrap svg{
+    position:absolute;
+    left:14px; top:50%;
+    transform:translateY(-50%);
+    width:16px; height:16px;
+    color:#8C8C8C;
+    pointer-events:none;
+  }
+  .search-input{
+    width:100%;
+    background:var(--ink);
+    border:1px solid rgba(255,255,255,0.14);
+    color:var(--white);
+    font-family:inherit;
+    font-size:16px;
+    padding:11px 14px 11px 38px;
+    border-radius:10px;
+    outline:none;
+  }
+  .search-input:focus{ border-color:#FFFFFF; }
+  .search-input::placeholder{ color:#7A7A7A; }
+
+  .fav-filter-btn{
+    flex-shrink:0;
+    background:var(--ink);
+    border:1px solid rgba(255,255,255,0.14);
+    color:var(--white);
+    font-size:19px;
+    width:44px; height:44px;
+    border-radius:10px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .2s, border-color .2s;
+  }
+  .fav-filter-btn.active{ background:#FFFFFF; color:#000000; border-color:#FFFFFF; }
+
+  .list-scroll{
+    overflow-y:auto;
+    padding:8px 10px 16px;
+  }
+  .list-scroll::-webkit-scrollbar{ width:5px; }
+  .list-scroll::-webkit-scrollbar-thumb{ background:rgba(255,255,255,0.14); border-radius:3px; }
+
+  .list-item{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:13px 12px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:background .15s;
+  }
+  .list-item:hover{ background:rgba(255,255,255,0.07); }
+  .list-item .li-num{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:13px;
+    color:#000000;
+    background:#FFFFFF;
+    border-radius:6px;
+    padding:3px 8px;
+    min-width:28px;
+    text-align:center;
+    margin-top:2px;
+  }
+  .list-item .li-body{ flex:1; min-width:0; }
+  .list-item .li-idiom{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:calc(17px * var(--font-scale));
+    color:var(--white);
+    margin-bottom:2px;
+  }
+  .list-item .li-meaning{
+    font-size:calc(14px * var(--font-scale));
+    color:#ADADAD;
+    line-height:1.4;
+  }
+  .list-item .li-star{
+    color:var(--white);
+    font-size:17px;
+    margin-top:2px;
+  }
+  .no-results{
+    text-align:center;
+    color:#8C8C8C;
+    font-size:15px;
+    padding:30px 10px;
+  }
+
+  /* ---------- Day Plan overlay ---------- */
+  #dayPlanSetup{ padding:24px 20px; text-align:center; }
+  #dayPlanSetup p{ font-size:16px; color:#D0D0D0; margin:0 0 18px; line-height:1.6; }
+  .day-input-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:20px;
+  }
+  .day-input-row input{
+    width:90px;
+    text-align:center;
+    background:var(--ink);
+    border:1px solid rgba(255,255,255,0.2);
+    color:var(--white);
+    font-size:22px;
+    font-weight:700;
+    padding:10px 6px;
+    border-radius:10px;
+    outline:none;
+  }
+  .day-input-row input:focus{ border-color:#FFFFFF; }
+  .day-input-row span{ font-size:15px; color:#B3B3B3; }
+  .primary-btn{
+    background:#FFFFFF;
+    color:#000000;
+    border:none;
+    font-weight:700;
+    font-size:15px;
+    padding:12px 28px;
+    border-radius:24px;
+    cursor:pointer;
+  }
+  .primary-btn:active{ transform:scale(0.97); }
+  .ghost-link{
+    background:none;
+    border:none;
+    color:#8C8C8C;
+    font-size:13px;
+    text-decoration:underline;
+    cursor:pointer;
+    margin-top:14px;
+  }
+  .ghost-link:hover{ color:var(--white); }
+
+  .day-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:13px 14px;
+    border-radius:14px;
+    margin:0 6px 8px;
+    background:rgba(255,255,255,0.03);
+  }
+  .day-row .day-info{ flex:1; min-width:0; }
+  .day-row .day-title{ font-family:'Fraunces', serif; font-weight:600; font-size:16.5px; color:var(--white); }
+  .day-row .day-range{ font-size:12.5px; color:#8C8C8C; margin-top:2px; }
+  .day-row .day-status{ font-size:12px; margin-top:3px; font-weight:600; }
+  .day-row .day-status.done{ color:#FFFFFF; }
+  .day-row .day-status.pending{ color:#7A7A7A; }
+  .day-row .day-actions{ display:flex; gap:6px; flex-shrink:0; }
+  .day-row button{
+    font-size:13px;
+    font-weight:600;
+    padding:8px 14px;
+    border-radius:16px;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,0.2);
+    background:none;
+    color:var(--white);
+    white-space:nowrap;
+  }
+  .day-row button.study-btn:hover{ background:rgba(255,255,255,0.1); }
+  .day-row button.exam-btn{ background:#FFFFFF; color:#000000; border-color:#FFFFFF; }
+  .day-row button.exam-btn:disabled{ background:none; color:#5A5A5A; border-color:rgba(255,255,255,0.14); cursor:not-allowed; }
+
+  .plan-reset-bar{
+    display:flex;
+    justify-content:flex-end;
+    padding:10px 20px 0;
+  }
+
+  /* ---------- Exam overlay ---------- */
+  .exam-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 20px;
+    border-bottom:1px solid rgba(255,255,255,0.12);
+  }
+  .exam-header h2{ font-family:'Fraunces', serif; font-size:18px; font-weight:600; margin:0; color:var(--white); }
+  .exam-progress-track{
+    height:4px;
+    background:rgba(255,255,255,0.1);
+    border-radius:2px;
+    margin:0 20px;
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .exam-progress-fill{ height:100%; background:#FFFFFF; transition:width .3s ease; }
+  .exam-body{ padding:22px 22px 10px; overflow-y:auto; }
+  .exam-qcount{ font-size:12.5px; color:#8C8C8C; letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px; }
+  .exam-question{ font-size:calc(18px * var(--font-scale)); line-height:1.6; color:var(--white); margin-bottom:20px; }
+  .exam-question .eng-quote{ font-style:italic; color:#D8D8D8; }
+  .exam-options{ display:flex; flex-direction:column; gap:10px; margin-bottom:16px; }
+  .exam-option{
+    text-align:left;
+    background:var(--ink);
+    border:1px solid rgba(255,255,255,0.16);
+    color:var(--white);
+    font-size:calc(15.5px * var(--font-scale));
+    font-family:'Hind Siliguri', sans-serif;
+    padding:13px 16px;
+    border-radius:12px;
+    cursor:pointer;
+    line-height:1.5;
+  }
+  .exam-option:hover:not(:disabled){ border-color:rgba(255,255,255,0.4); }
+  .exam-option.correct{ background:#FFFFFF; color:#000000; border-color:#FFFFFF; font-weight:600; }
+  .exam-option.wrong{ background:#1F1F1F; color:#8C8C8C; border-color:rgba(255,255,255,0.1); text-decoration:line-through; }
+  .exam-option:disabled{ cursor:default; }
+  .exam-footer{ padding:14px 20px 22px; display:flex; justify-content:flex-end; }
+
+  .exam-result{ padding:26px 22px; text-align:center; }
+  .exam-score{ font-family:'Fraunces', serif; font-size:44px; font-weight:600; color:var(--white); }
+  .exam-score-label{ font-size:14px; color:#B3B3B3; margin-bottom:22px; }
+  .exam-review{ text-align:left; max-height:280px; overflow-y:auto; margin:0 0 20px; padding:0 4px; }
+  .exam-review-item{ padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.08); font-size:13.5px; }
+  .exam-review-item .rq{ color:#D0D0D0; margin-bottom:4px; }
+  .exam-review-item .ra-correct{ color:#FFFFFF; }
+  .exam-review-item .ra-wrong{ color:#8C8C8C; text-decoration:line-through; }
+  .exam-result-actions{ display:flex; gap:10px; justify-content:center; }
+
+  /* ---------- Settings overlay ---------- */
+  .settings-body{ padding:10px 20px 24px; }
+  .setting-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 0;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    gap:14px;
+  }
+  .setting-row:last-child{ border-bottom:none; }
+  .setting-label{ font-size:15px; font-weight:600; color:var(--white); }
+  .setting-sub{ font-size:12.5px; color:#8C8C8C; margin-top:2px; }
+
+  .switch{ position:relative; width:46px; height:26px; flex-shrink:0; }
+  .switch input{ opacity:0; width:0; height:0; }
+  .switch-track{
+    position:absolute; inset:0; background:rgba(255,255,255,0.15);
+    border-radius:14px; cursor:pointer; transition:background .2s;
+  }
+  .switch-track::before{
+    content:""; position:absolute; width:20px; height:20px; left:3px; top:3px;
+    background:#8C8C8C; border-radius:50%; transition:transform .2s, background .2s;
+  }
+  .switch input:checked + .switch-track{ background:#FFFFFF; }
+  .switch input:checked + .switch-track::before{ transform:translateX(20px); background:#000000; }
+
+  .font-size-row{ flex-direction:column; align-items:stretch; }
+  .font-slider-wrap{ display:flex; align-items:center; gap:10px; }
+  .font-slider-wrap span{ font-size:13px; color:#8C8C8C; flex-shrink:0; }
+  .font-slider-wrap input[type="range"]{
+    flex:1;
+    accent-color:#FFFFFF;
+  }
+  .font-scale-label{ font-size:13px; color:var(--white); font-weight:600; min-width:42px; text-align:right; }
+
+  .color-row{ flex-direction:column; align-items:stretch; }
+  .color-pickers{ display:flex; gap:14px; }
+  .color-pick-item{ flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .color-pick-item label{ font-size:12.5px; color:#B3B3B3; }
+  .color-pick-item input[type="color"]{
+    width:52px; height:36px;
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:8px;
+    background:none;
+    cursor:pointer;
+    padding:0;
+  }
+  .settings-reset-bar{ display:flex; justify-content:center; margin-top:6px; }
+
+
+  footer.note{
+    margin-top:26px;
+    font-size:13px;
+    color:#7A7A7A;
+    text-align:center;
+    max-width:400px;
+  }
+  kbd{
+    background:rgba(255,255,255,0.12);
+    padding:1px 6px;
+    border-radius:4px;
+    font-size:11.5px;
+    font-family:inherit;
+  }
+
+  /* ---------- Mobile: full-screen card view ---------- */
+  @media (max-width:640px){
+    body{ padding:12px 10px calc(10px + env(safe-area-inset-bottom)); }
+    .meta-bar{ font-size:13px; }
+    .top-bar{ margin-bottom:10px; }
+    .idiom-text{ font-size:clamp(28px,9vw,38px); }
+    .controls{ margin-top:12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .card, .progress-fill, .ctrl-btn{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Idiom Deck · বাগধারা অনুশীলন</div>
+  <h1>ইংরেজি ইডিয়ম ফ্ল্যাশকার্ড</h1>
+  <div class="sub bangla">কার্ডে ট্যাপ করুন অথবা স্পেসবার চাপুন অর্থ দেখতে</div>
+</header>
+
+<div class="top-bar">
+  <button class="list-toggle-btn" id="listToggleBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+    <span class="bangla">সব দেখুন</span>
+  </button>
+  <button class="list-toggle-btn" id="dayPlanBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    <span class="bangla">ডে প্ল্যান</span>
+  </button>
+  <button class="list-toggle-btn" id="examEntryBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <span class="bangla">পরীক্ষা</span>
+  </button>
+  <button class="fullscreen-btn" id="fullscreenBtn" title="Full screen">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+  </button>
+  <button class="fullscreen-btn" id="settingsBtn" title="Settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+  </button>
+</div>
+
+<div class="day-badge" id="dayBadge" style="display:none;">
+  <span class="bangla" id="dayBadgeText">Day 1</span>
+  <div class="day-badge-actions">
+    <button class="day-badge-exam-btn bangla" id="dayBadgeExamBtn">পরীক্ষা দিন</button>
+    <button id="exitDayBtn" title="সম্পূর্ণ ডেক">✕</button>
+  </div>
+</div>
+
+<div class="meta-bar">
+  <div class="count">Card <strong id="cardNum">1</strong> / <span id="cardTotal">15</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <button class="star-count-btn" id="starCountBtn">★ <span id="starCount">0</span></button>
+</div>
+
+<div class="scene">
+  <div class="card" id="card">
+    <div class="face front">
+      <div class="tab" id="tabNum">01</div>
+      <div class="front-main">
+        <div class="idiom-text" id="idiomText">Break the ice</div>
+        <div class="idiom-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
+          <span class="bangla">অর্থ জানতে কার্ডে ট্যাপ করুন</span>
+        </div>
+      </div>
+      <div class="front-footer">
+        <span>English Idiom</span>
+        <button class="star-btn" id="starBtn" title="Save as favorite">★</button>
+      </div>
+    </div>
+
+    <div class="face back">
+      <div class="back-idiom" id="backIdiomText">"Break the ice"</div>
+
+      <div class="field">
+        <div class="field-label alt bangla">বাংলা অর্থ</div>
+        <div class="field-value bangla" id="banglaMeaning">–</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">English Meaning</div>
+        <div class="field-value eng" id="englishMeaning">–</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label alt bangla">উদাহরণ বাক্য</div>
+        <div class="field-value sent-en" id="sentenceEn">–</div>
+        <div class="field-value bangla" id="sentenceBn">–</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label bangla">উৎপত্তি</div>
+        <div class="field-value bangla" id="origin">–</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="ctrl-btn" id="prevBtn" title="Previous">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="flip-label-btn" id="flipBtn">অর্থ দেখুন</button>
+  <button class="ctrl-btn" id="nextBtn" title="Next">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <button class="ctrl-btn shuffle-btn" id="shuffleBtn" title="Shuffle">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M4 4l5 5M15 15l6 6"/></svg>
+  </button>
+</div>
+
+<div class="dots" id="dots"></div>
+
+<div class="list-overlay" id="listOverlay">
+  <div class="list-panel">
+    <div class="list-header">
+      <h2 class="bangla">সম্পূর্ণ তালিকা <span id="panelCount" style="color:#9A9DA8;font-weight:400;font-size:13px;"></span></h2>
+      <button class="close-btn" id="closeListBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="search-wrap">
+      <div class="search-input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" class="search-input bangla" id="searchInput" placeholder="Idiom বা বাংলা অর্থ দিয়ে খুঁজুন...">
+      </div>
+      <button class="fav-filter-btn" id="favFilterBtn" title="শুধু ফেভারিট দেখুন">★</button>
+    </div>
+    <div class="list-scroll" id="listScroll"></div>
+  </div>
+</div>
+
+<div class="list-overlay" id="dayPlanOverlay">
+  <div class="list-panel">
+    <div class="list-header">
+      <h2 class="bangla">ডে প্ল্যান</h2>
+      <button class="close-btn" id="closeDayPlanBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+
+    <div id="dayPlanSetup" style="display:none;">
+      <p class="bangla">প্রতিদিন কয়টি idiom পড়তে চান?</p>
+      <div class="day-input-row">
+        <input type="number" id="perDayInput" min="1" max="210" value="10">
+        <span class="bangla">টি / দিন</span>
+      </div>
+      <button class="primary-btn bangla" id="startPlanBtn">প্ল্যান শুরু করুন</button>
+    </div>
+
+    <div id="dayPlanListWrap" style="display:none;">
+      <div class="plan-reset-bar">
+        <button class="ghost-link bangla" id="resetPlanBtn">প্ল্যান রিসেট করুন</button>
+      </div>
+      <div class="list-scroll" id="dayPlanRows"></div>
+    </div>
+  </div>
+</div>
+
+<div class="list-overlay" id="settingsOverlay">
+  <div class="list-panel">
+    <div class="list-header">
+      <h2 class="bangla">সেটিংস</h2>
+      <button class="close-btn" id="closeSettingsBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="settings-body">
+      <div class="setting-row">
+        <div>
+          <div class="setting-label bangla">সাউন্ড এফেক্ট</div>
+          <div class="setting-sub bangla">কার্ড ফ্লিপ ও পরীক্ষার শব্দ</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="soundToggle" checked>
+          <span class="switch-track"></span>
+        </label>
+      </div>
+
+      <div class="setting-row font-size-row">
+        <div class="setting-label bangla">ফন্ট সাইজ</div>
+        <div class="font-slider-wrap">
+          <span>A</span>
+          <input type="range" id="fontScaleSlider" min="0.8" max="1.6" step="0.05" value="1">
+          <span style="font-size:19px;">A</span>
+          <span class="font-scale-label" id="fontScaleLabel">100%</span>
+        </div>
+      </div>
+
+      <div class="setting-row color-row">
+        <div class="setting-label bangla">কার্ডের রঙ</div>
+        <div class="color-pickers">
+          <div class="color-pick-item">
+            <input type="color" id="cardTextColor" value="#000000">
+            <label class="bangla">টেক্সট রঙ</label>
+          </div>
+          <div class="color-pick-item">
+            <input type="color" id="cardBgColor" value="#ffffff">
+            <label class="bangla">ব্যাকগ্রাউন্ড রঙ</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-reset-bar">
+        <button class="ghost-link bangla" id="resetSettingsBtn">ডিফল্টে ফিরিয়ে আনুন</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="list-overlay" id="examSetupOverlay">
+  <div class="list-panel">
+    <div class="list-header">
+      <h2 class="bangla">পরীক্ষা শুরু করুন</h2>
+      <button class="close-btn" id="closeExamSetupBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div style="padding:22px 20px;">
+      <button class="primary-btn bangla" id="fullExamBtn" style="width:100%; margin-bottom:20px;">সম্পূর্ণ তালিকা থেকে পরীক্ষা (<span id="fullExamCount">210</span>টি)</button>
+
+      <p class="bangla" style="font-size:14px; color:#B3B3B3; margin:0 0 10px;">অথবা কাস্টম সংখ্যক প্রশ্ন দিয়ে পরীক্ষা:</p>
+      <div class="day-input-row" style="margin-bottom:16px;">
+        <input type="number" id="customExamInput" min="1" max="210" value="20">
+        <span class="bangla">টি প্রশ্ন</span>
+      </div>
+      <button class="primary-btn bangla" id="customExamBtn" style="width:100%; margin-bottom:22px;">কাস্টম পরীক্ষা শুরু করুন</button>
+
+      <button class="ghost-link bangla" id="examSetupDayPlanBtn" style="display:block; margin:0 auto;">নির্দিষ্ট দিনের পরীক্ষা দিতে চাই</button>
+    </div>
+  </div>
+</div>
+
+<div class="list-overlay" id="examOverlay">
+  <div class="list-panel">
+    <div class="exam-header">
+      <h2 class="bangla" id="examTitle">পরীক্ষা</h2>
+      <button class="close-btn" id="closeExamBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="exam-progress-track"><div class="exam-progress-fill" id="examProgressFill"></div></div>
+
+    <div id="examQuizView">
+      <div class="exam-body">
+        <div class="exam-qcount bangla" id="examQCount">প্রশ্ন ১ / ১০</div>
+        <div class="exam-question bangla" id="examQuestionText"></div>
+        <div class="exam-options" id="examOptions"></div>
+      </div>
+      <div class="exam-footer">
+        <button class="primary-btn bangla" id="examNextBtn" disabled>পরবর্তী</button>
+      </div>
+    </div>
+
+    <div id="examResultView" style="display:none;">
+      <div class="exam-result">
+        <div class="exam-score" id="examScoreText">0/0</div>
+        <div class="exam-score-label bangla" id="examScoreLabel">সঠিক উত্তর</div>
+        <div class="exam-review" id="examReview"></div>
+        <div class="exam-result-actions">
+          <button class="primary-btn bangla" id="examRetakeBtn">আবার পরীক্ষা দিন</button>
+          <button class="ghost-link bangla" id="examCloseBtn2">বন্ধ করুন</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const idioms = [
+  {
+    idiom: "Blue blood",
+    banglaMeaning: "আভিজাত্য / সম্ভ্রান্ত বংশ",
+    englishMeaning: "Aristocratic or noble birth",
+    sentenceEn: "She married into a family of blue blood.",
+    sentenceBn: "সে এক অভিজাত বংশে বিয়ে করেছিল।",
+    origin: "স্পেনীয় অভিজাতদের ধারণা থেকে এসেছে যে তাদের ত্বকের শিরা সাধারণ মানুষের তুলনায় বেশি নীল দেখাত, কারণ তারা রোদে কাজ করত না। এখান থেকেই 'নীল রক্ত' অভিজাত বংশের প্রতীক হয়ে ওঠে।"
+  },
+  {
+    idiom: "Bad blood",
+    banglaMeaning: "শত্রুতা / মনোমালিন্য",
+    englishMeaning: "Animosity or hostility between people",
+    sentenceEn: "There has been bad blood between the two families for years.",
+    sentenceBn: "দুই পরিবারের মধ্যে বছরের পর বছর ধরে শত্রুতা চলে আসছে।",
+    origin: "প্রাচীনকালে ধারণা করা হতো রক্তের মধ্যে আবেগ থাকে, তাই 'খারাপ রক্ত' মানেই তিক্ত সম্পর্ক বা শত্রুতা বোঝাতে ব্যবহৃত হতে থাকে।"
+  },
+  {
+    idiom: "All in all",
+    banglaMeaning: "সর্বেসর্বা",
+    englishMeaning: "The most important person or thing; overall",
+    sentenceEn: "He is the all in all of this office.",
+    sentenceBn: "তিনিই এই অফিসের সর্বেসর্বা।",
+    origin: "এই বাগধারাটি কারও ওপর সম্পূর্ণ নির্ভরতা বা কর্তৃত্ব বোঝাতে বহুদিন ধরে প্রচলিত, নির্দিষ্ট কোনো ঐতিহাসিক উৎসকাহিনি জানা যায় না।"
+  },
+  {
+    idiom: "All but",
+    banglaMeaning: "প্রায়",
+    englishMeaning: "Nearly / almost",
+    sentenceEn: "The work is all but finished.",
+    sentenceBn: "কাজটি প্রায় শেষ হয়ে গেছে।",
+    origin: "সাধারণ ব্যবহারিক অভিব্যক্তি হিসেবে দীর্ঘদিন ধরে ইংরেজি ভাষায় প্রচলিত, কোনো নির্দিষ্ট উৎসকাহিনি নেই।"
+  },
+  {
+    idiom: "At bottom",
+    banglaMeaning: "বাস্তবে / ভেতরে ভেতরে",
+    englishMeaning: "In reality; fundamentally",
+    sentenceEn: "At bottom, he is a kind man.",
+    sentenceBn: "বাস্তবে সে একজন দয়ালু মানুষ।",
+    origin: "'নিচে' বা ভিত্তিতে কী আছে তা বোঝাতে রূপকভাবে ব্যবহৃত হয়ে আসছে, যা প্রকৃত সত্যতা প্রকাশ করে।"
+  },
+  {
+    idiom: "At a low ebb",
+    banglaMeaning: "নিম্নমুখী / হ্রাসমান",
+    englishMeaning: "In a weak or declining state",
+    sentenceEn: "The economy is at a low ebb this year.",
+    sentenceBn: "এই বছর অর্থনীতি নিম্নমুখী অবস্থায় আছে।",
+    origin: "সমুদ্রের জোয়ার-ভাটার 'ebb' বা ভাটার সময় পানি নেমে যাওয়ার প্রাকৃতিক চিত্র থেকে দুর্বল বা নিম্নমুখী অবস্থা বোঝাতে ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "All at once",
+    banglaMeaning: "হঠাৎ করে",
+    englishMeaning: "Suddenly",
+    sentenceEn: "All at once, the lights went out.",
+    sentenceBn: "হঠাৎ করে বাতিগুলো নিভে গেল।",
+    origin: "আকস্মিকতা বোঝাতে সাধারণ ব্যবহারিক অভিব্যক্তি হিসেবে প্রচলিত।"
+  },
+  {
+    idiom: "At a stone's throw",
+    banglaMeaning: "খুবই নিকটে",
+    englishMeaning: "At a very short distance",
+    sentenceEn: "The market is at a stone's throw from my house.",
+    sentenceBn: "বাজারটি আমার বাড়ি থেকে খুবই কাছে।",
+    origin: "একটি ছোঁড়া পাথর যতদূর যেতে পারে, সেই দূরত্বকে নিকটতা বোঝাতে রূপক হিসেবে ব্যবহার করা হয়।"
+  },
+  {
+    idiom: "Acid test",
+    banglaMeaning: "অগ্নিপরীক্ষা / সত্যিকারের পরীক্ষা",
+    englishMeaning: "A conclusive test of quality or value",
+    sentenceEn: "This match will be the acid test of the team's strength.",
+    sentenceBn: "এই ম্যাচটিই হবে দলের শক্তির প্রকৃত অগ্নিপরীক্ষা।",
+    origin: "স্বর্ণকাররা আসল সোনা যাচাই করতে নাইট্রিক অ্যাসিড ব্যবহার করতেন, কারণ ভেজাল ধাতু অ্যাসিডে ক্ষয় হয়ে যেত। সেখান থেকেই 'চূড়ান্ত পরীক্ষা' অর্থে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Apple of one's eye",
+    banglaMeaning: "নয়নের মণি",
+    englishMeaning: "Someone or something cherished above all others",
+    sentenceEn: "Her youngest son is the apple of her eye.",
+    sentenceBn: "তার ছোট ছেলে তার নয়নের মণি।",
+    origin: "প্রাচীন ইংরেজিতে চোখের মণিকে আপেলের মতো গোলাকার মনে করা হতো, যা রক্ষা করা সবচেয়ে জরুরি — সেখান থেকেই প্রিয়তম কিছু বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "An apple of discord",
+    banglaMeaning: "বিবাদের বিষয়বস্তু",
+    englishMeaning: "A cause of dispute or quarrel",
+    sentenceEn: "The property became an apple of discord between the brothers.",
+    sentenceBn: "সম্পত্তিটি ভাইদের মধ্যে বিবাদের বিষয়বস্তু হয়ে দাঁড়াল।",
+    origin: "গ্রিক পুরাণে বিবাদের দেবী এরিস একটি সোনার আপেল ছুঁড়ে দেন যাতে লেখা ছিল 'সবচেয়ে সুন্দরীর জন্য', যা তিন দেবীর মধ্যে বিবাদ সৃষ্টি করে এবং শেষে ট্রয় যুদ্ধের কারণ হয়।"
+  },
+  {
+    idiom: "At daggers drawn",
+    banglaMeaning: "শত্রুতাপূর্ণ সম্পর্ক",
+    englishMeaning: "In a state of intense hostility",
+    sentenceEn: "The two neighbours are at daggers drawn over the boundary wall.",
+    sentenceBn: "সীমানা প্রাচীর নিয়ে দুই প্রতিবেশী চরম শত্রুতাপূর্ণ সম্পর্কে আছে।",
+    origin: "দুই ব্যক্তি একে অপরের দিকে ছোরা (dagger) তাক করে আছে — এই চিত্র থেকেই তীব্র শত্রুতা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "At a snail's pace",
+    banglaMeaning: "শম্বুকগতিতে",
+    englishMeaning: "Extremely slowly",
+    sentenceEn: "The construction work is moving at a snail's pace.",
+    sentenceBn: "নির্মাণকাজ শম্বুকগতিতে এগোচ্ছে।",
+    origin: "শামুকের চলাফেরার স্বাভাবিক ধীরগতি থেকে অত্যন্ত ধীর কোনো কাজ বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "After one's own heart",
+    banglaMeaning: "মনের মতো / পছন্দের",
+    englishMeaning: "Exactly to one's liking",
+    sentenceEn: "He found a friend after his own heart.",
+    sentenceBn: "সে তার মনের মতো একজন বন্ধু খুঁজে পেল।",
+    origin: "কারও রুচি বা মনোভাবের সঙ্গে হুবহু মিলে যাওয়া বোঝাতে বাইবেলীয় ভাষাশৈলী থেকে প্রচলিত অভিব্যক্তি।"
+  },
+  {
+    idiom: "At the eleventh hour",
+    banglaMeaning: "একদম শেষ মুহূর্তে",
+    englishMeaning: "At the last possible moment",
+    sentenceEn: "They cancelled the trip at the eleventh hour.",
+    sentenceBn: "তারা একদম শেষ মুহূর্তে ভ্রমণ বাতিল করল।",
+    origin: "বাইবেলের একটি দৃষ্টান্তে দিনমজুরদের বারো ঘণ্টার কর্মদিবসের এগারো ঘণ্টায় নিয়োগ দেওয়ার গল্প থেকে শেষ মুহূর্ত বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "At home",
+    banglaMeaning: "সুপরিচিত / স্বাচ্ছন্দ্য বোধ করা",
+    englishMeaning: "Familiar with, or comfortable and at ease",
+    sentenceEn: "He feels at home with numbers.",
+    sentenceBn: "সংখ্যার জগতে সে স্বচ্ছন্দ বোধ করে।",
+    origin: "নিজের ঘরে যেমন মানুষ সবচেয়ে স্বচ্ছন্দ ও পরিচিত বোধ করে, সেই অনুভূতি থেকেই দক্ষতা বা স্বাচ্ছন্দ্য বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Achilles heel",
+    banglaMeaning: "দুর্বল স্থান",
+    englishMeaning: "A weak or vulnerable point",
+    sentenceEn: "Overconfidence is his Achilles heel.",
+    sentenceBn: "অতিরিক্ত আত্মবিশ্বাসই তার দুর্বল স্থান।",
+    origin: "গ্রিক পুরাণের বীর অ্যাকিলিসকে তার মা স্টিক্স নদীতে ডুবিয়ে অজেয় করে তোলেন, কিন্তু যে গোড়ালি ধরে তাকে ডোবানো হয়েছিল তা অরক্ষিত থেকে যায়, আর সেখানেই আঘাত পেয়ে তিনি মারা যান।"
+  },
+  {
+    idiom: "Abode of God",
+    banglaMeaning: "স্বর্গ",
+    englishMeaning: "Heaven",
+    sentenceEn: "People believe the abode of God is full of peace.",
+    sentenceBn: "মানুষ বিশ্বাস করে স্বর্গ শান্তিতে পরিপূর্ণ।",
+    origin: "ধর্মীয় সাহিত্যে ঈশ্বরের বাসস্থান হিসেবে স্বর্গকে বোঝাতে সরাসরি এই অভিব্যক্তি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Beg the question",
+    banglaMeaning: "সত্যতা প্রমাণ ছাড়াই সত্য বলে ধরে নেওয়া",
+    englishMeaning: "To assume the truth of a matter without proving it",
+    sentenceEn: "Saying he is guilty because he looks nervous begs the question.",
+    sentenceBn: "সে নার্ভাস দেখাচ্ছে বলেই তাকে দোষী বলা যুক্তির ঘাটতি প্রকাশ করে।",
+    origin: "প্রাচীন যুক্তিবিদ্যার একটি ত্রুটি (petitio principii) থেকে এই পরিভাষাটি এসেছে, যেখানে সিদ্ধান্তকেই প্রমাণ হিসেবে ব্যবহার করা হয়।"
+  },
+  {
+    idiom: "A bull in a china shop",
+    banglaMeaning: "বেপরোয়া বা অসতর্ক ব্যক্তি",
+    englishMeaning: "A careless person who causes damage",
+    sentenceEn: "He handled the negotiations like a bull in a china shop.",
+    sentenceBn: "সে আলোচনাটি এক বেপরোয়া মানুষের মতো নষ্ট করে ফেলল।",
+    origin: "একটি ষাঁড় চীনামাটির দোকানে ঢুকলে যেভাবে সবকিছু ভেঙে ফেলবে, সেই চিত্র থেকে অসতর্ক ও বেপরোয়া আচরণ বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Beat around the bush",
+    banglaMeaning: "আসল কথা এড়িয়ে যাওয়া",
+    englishMeaning: "To avoid getting to the main point",
+    sentenceEn: "Stop beating around the bush and tell me the truth.",
+    sentenceBn: "ঘুরিয়ে না বলে সরাসরি সত্যিটা বলো।",
+    origin: "শিকারিরা ঝোপের ভেতরে সরাসরি না ঢুকে চারপাশে লাঠি দিয়ে আঘাত করে পাখি তাড়াতেন — মূল লক্ষ্যের চারপাশে ঘোরাঘুরির এই চিত্র থেকেই বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "By far",
+    banglaMeaning: "অনেকাংশে / তুলনায় এগিয়ে",
+    englishMeaning: "By a great amount; clearly",
+    sentenceEn: "This is by far the best solution.",
+    sentenceBn: "এটিই তুলনায় সবচেয়ে ভালো সমাধান।",
+    origin: "তুলনার ক্ষেত্রে ব্যবধান জোর দিয়ে বোঝাতে সাধারণ ব্যবহারিক অভিব্যক্তি হিসেবে প্রচলিত।"
+  },
+  {
+    idiom: "Bearish",
+    banglaMeaning: "মন্দাবাজার / মূল্য পতনমুখী",
+    englishMeaning: "Expecting or characterized by falling prices",
+    sentenceEn: "Investors are bearish on the stock market this week.",
+    sentenceBn: "এই সপ্তাহে বিনিয়োগকারীরা শেয়ারবাজার সম্পর্কে হতাশাবাদী।",
+    origin: "ভালুকের (bear) আক্রমণের ধরন উপর থেকে নিচে থাবা মারার মতো, যা মূল্য পতনের প্রতীক হিসেবে শেয়ারবাজারের পরিভাষায় ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Bootleg",
+    banglaMeaning: "চোরাকারবার করা",
+    englishMeaning: "To make, sell, or transport illegally",
+    sentenceEn: "They used to bootleg alcohol during the prohibition era.",
+    sentenceBn: "নিষেধাজ্ঞার সময় তারা মদ চোরাচালান করত।",
+    origin: "আমেরিকান নিষেধাজ্ঞার যুগে চোরাকারবারিরা বুট জুতার ভেতরে লুকিয়ে মদের বোতল বহন করত, সেখান থেকেই শব্দটির উৎপত্তি।"
+  },
+  {
+    idiom: "By and large",
+    banglaMeaning: "প্রধানত / মূলত",
+    englishMeaning: "On the whole; generally",
+    sentenceEn: "By and large, the plan was a success.",
+    sentenceBn: "মূলত পরিকল্পনাটি সফল হয়েছিল।",
+    origin: "নাবিকদের পরিভাষা থেকে এসেছে, যেখানে 'large' মানে বাতাসের অনুকূলে এবং 'by' মানে সামান্য প্রতিকূলে চলা — অর্থাৎ সব পরিস্থিতি মিলিয়ে সামগ্রিকভাবে।"
+  },
+  {
+    idiom: "By all means",
+    banglaMeaning: "অবশ্যই",
+    englishMeaning: "Certainly; of course",
+    sentenceEn: "By all means, take your time.",
+    sentenceBn: "অবশ্যই, তুমি সময় নাও।",
+    origin: "সম্মতি বা অনুমতি জোরালোভাবে প্রকাশ করতে প্রচলিত ব্যবহারিক অভিব্যক্তি।"
+  },
+  {
+    idiom: "Big guns",
+    banglaMeaning: "প্রভাবশালী ব্যক্তি",
+    englishMeaning: "The most important or influential people",
+    sentenceEn: "The company brought in the big guns to solve the crisis.",
+    sentenceBn: "সংকট সমাধানে কোম্পানি প্রভাবশালী ব্যক্তিদের নিয়ে এল।",
+    origin: "যুদ্ধে বড় কামান (guns) সবচেয়ে বেশি প্রভাব ফেলত, সেখান থেকেই প্রভাবশালী ব্যক্তি বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Black and blue",
+    banglaMeaning: "মেরে কালশিরা ফেলা",
+    englishMeaning: "Badly bruised from a beating",
+    sentenceEn: "The boxer was beaten black and blue.",
+    sentenceBn: "বক্সারকে মেরে কালশিরা ফেলা হলো।",
+    origin: "প্রচণ্ড আঘাতে ত্বকে যে কালচে-নীল দাগ পড়ে, তার আক্ষরিক বর্ণনা থেকেই বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "By leaps and bounds",
+    banglaMeaning: "দ্রুতগতিতে",
+    englishMeaning: "Very rapidly",
+    sentenceEn: "The company's profits grew by leaps and bounds.",
+    sentenceBn: "কোম্পানির মুনাফা দ্রুতগতিতে বেড়ে গেল।",
+    origin: "লাফ দিয়ে (leap) দ্রুত এগিয়ে যাওয়ার শারীরিক চিত্র থেকে দ্রুত অগ্রগতি বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Back up",
+    banglaMeaning: "সমর্থন করা",
+    englishMeaning: "To support or help someone; to prove something",
+    sentenceEn: "My colleagues backed me up during the meeting.",
+    sentenceBn: "মিটিংয়ে আমার সহকর্মীরা আমাকে সমর্থন করেছিল।",
+    origin: "পেছন থেকে সহায়তা দেওয়ার আক্ষরিক অর্থ থেকে সমর্থন করা অর্থে ব্যবহৃত হয়ে আসছে।"
+  },
+  {
+    idiom: "By fits and starts",
+    banglaMeaning: "অনিয়মিতভাবে",
+    englishMeaning: "Irregularly, with pauses",
+    sentenceEn: "He works by fits and starts, never consistently.",
+    sentenceBn: "সে অনিয়মিতভাবে কাজ করে, কখনো ধারাবাহিক থাকে না।",
+    origin: "কাজ কখনো হঠাৎ জোরে (fit) শুরু হয় আবার হঠাৎ থেমে যায় (start) — এই অসংগতি থেকে অনিয়মিততা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Burn the candle at both ends",
+    banglaMeaning: "অতিরিক্ত পরিশ্রমে ক্লান্ত হওয়া",
+    englishMeaning: "To exhaust oneself by overworking",
+    sentenceEn: "She's been burning the candle at both ends preparing for exams.",
+    sentenceBn: "পরীক্ষার প্রস্তুতির জন্য সে নিজেকে চরম পরিশ্রমে ক্লান্ত করে ফেলছে।",
+    origin: "একটি মোমবাতি দুই প্রান্ত থেকে জ্বালালে তা দ্রুত ফুরিয়ে যায় — এই অপচয়ের চিত্র থেকে অতিরিক্ত পরিশ্রমে শক্তি ক্ষয় বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Bring to pass",
+    banglaMeaning: "ঘটানো",
+    englishMeaning: "To cause something to happen",
+    sentenceEn: "His hard work brought his dream to pass.",
+    sentenceBn: "তার কঠোর পরিশ্রম তার স্বপ্নকে বাস্তবে রূপ দিল।",
+    origin: "পুরাতন ইংরেজি সাহিত্যিক ভাষা থেকে প্রচলিত, যেখানে কোনো ঘটনা সংঘটিত করার অর্থে ব্যবহৃত হতো।"
+  },
+  {
+    idiom: "A bad egg",
+    banglaMeaning: "বদমাশ লোক",
+    englishMeaning: "An unreliable or dishonest person",
+    sentenceEn: "Everyone warned her that he was a bad egg.",
+    sentenceBn: "সবাই তাকে সতর্ক করেছিল যে সে একজন বদমাশ লোক।",
+    origin: "পচা ডিম বাইরে থেকে বোঝা যায় না, ভেতরে ভাঙলেই টের পাওয়া যায় — সেভাবেই চরিত্রে খারাপ মানুষ বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Bring to book",
+    banglaMeaning: "বিচারের মুখোমুখি করা",
+    englishMeaning: "To make someone answer for their actions; punish",
+    sentenceEn: "The corrupt officer was finally brought to book.",
+    sentenceBn: "দুর্নীতিগ্রস্ত কর্মকর্তাকে অবশেষে বিচারের মুখোমুখি করা হলো।",
+    origin: "হিসাবের খাতায় (book) কারও কাজ লিপিবদ্ধ করে জবাবদিহি করানোর প্রথা থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Bill of fare",
+    banglaMeaning: "খাদ্যতালিকা",
+    englishMeaning: "A menu; a list of dishes",
+    sentenceEn: "The waiter handed us the bill of fare.",
+    sentenceBn: "ওয়েটার আমাদের খাদ্যতালিকা দিলেন।",
+    origin: "রেস্তোরাঁর খাবারের হিসাব-তালিকা বোঝাতে পুরনো ইংরেজি বাণিজ্যিক পরিভাষা থেকে প্রচলিত।"
+  },
+  {
+    idiom: "Bird's eye view",
+    banglaMeaning: "ভাসাভাসা দৃষ্টি / মোটামুটি ধারণা",
+    englishMeaning: "A general overview from above",
+    sentenceEn: "The report gives a bird's eye view of the economy.",
+    sentenceBn: "প্রতিবেদনটি অর্থনীতির একটি সামগ্রিক ধারণা দেয়।",
+    origin: "পাখি আকাশ থেকে যেভাবে পুরো এলাকা একনজরে দেখতে পায়, সেই দৃষ্টিভঙ্গি থেকে সামগ্রিক ধারণা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Bottom line",
+    banglaMeaning: "মূল বিষয় / চূড়ান্ত ফলাফল",
+    englishMeaning: "The essential point or final result",
+    sentenceEn: "The bottom line is we need more funding.",
+    sentenceBn: "মূল কথা হলো আমাদের আরও তহবিল দরকার।",
+    origin: "হিসাবের খাতায় সর্বশেষ লাইনে মোট লাভ-ক্ষতির ফলাফল লেখা হতো, সেখান থেকে চূড়ান্ত ও মূল বিষয় বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Browbeating",
+    banglaMeaning: "ধমকি দিয়ে ভয় দেখানো",
+    englishMeaning: "Intimidating someone with stern looks or words",
+    sentenceEn: "The manager was accused of browbeating junior staff.",
+    sentenceBn: "ম্যানেজারের বিরুদ্ধে জুনিয়র কর্মীদের ধমকানোর অভিযোগ উঠল।",
+    origin: "কপালের (brow) ভ্রুকুটি বা কড়া দৃষ্টি দিয়ে ভয় দেখানোর চিত্র থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Bag and baggage",
+    banglaMeaning: "তল্পিতল্পাসহ",
+    englishMeaning: "With all one's belongings, leaving nothing behind",
+    sentenceEn: "They left the house bag and baggage.",
+    sentenceBn: "তারা তল্পিতল্পাসহ বাড়ি ছেড়ে চলে গেল।",
+    origin: "সামরিক পরিভাষা থেকে এসেছে, যেখানে সৈন্যরা তাদের সমস্ত মালপত্র (bag ও baggage) সহ পুরোপুরি প্রস্থান করত।"
+  },
+  {
+    idiom: "Between the devil and the deep sea",
+    banglaMeaning: "উভয় সংকট",
+    englishMeaning: "Facing two equally difficult choices",
+    sentenceEn: "He was between the devil and the deep sea over the decision.",
+    sentenceBn: "সিদ্ধান্তটি নিয়ে সে উভয় সংকটে পড়ে গেল।",
+    origin: "একদিকে বিপজ্জনক শয়তান, অন্যদিকে গভীর সমুদ্র — দুটোই সমান বিপজ্জনক, এই নাবিকদের রূপক থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Backstairs influence",
+    banglaMeaning: "গোপন ও অন্যায় প্রভাব",
+    englishMeaning: "Secret or unfair influence",
+    sentenceEn: "He got the job through backstairs influence.",
+    sentenceBn: "গোপন প্রভাব খাটিয়ে সে চাকরিটি পেয়েছিল।",
+    origin: "প্রাসাদের প্রধান সিঁড়ির বদলে পেছনের সিঁড়ি (backstairs) দিয়ে গোপনে যাতায়াতের চিত্র থেকে অসাধু প্রভাব বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Big bug",
+    banglaMeaning: "গুরুত্বপূর্ণ ব্যক্তি",
+    englishMeaning: "An important or influential person",
+    sentenceEn: "He acts like a big bug in the office.",
+    sentenceBn: "সে অফিসে নিজেকে বিশেষ গুরুত্বপূর্ণ ব্যক্তি মনে করে চলাফেরা করে।",
+    origin: "'Bug' শব্দটি এখানে বড়সড় প্রাণী বোঝাতে ব্যবহৃত হয়েছে, যা রূপকভাবে গুরুত্বপূর্ণ ব্যক্তি বোঝায়।"
+  },
+  {
+    idiom: "The birds and the bees",
+    banglaMeaning: "যৌন প্রজননের মৌলিক ধারণা",
+    englishMeaning: "The basic facts about sex and reproduction",
+    sentenceEn: "Parents often struggle to explain the birds and the bees to children.",
+    sentenceBn: "বাবা-মায়েরা প্রায়ই সন্তানদের যৌন প্রজননের মৌলিক ধারণা বোঝাতে সমস্যায় পড়েন।",
+    origin: "প্রকৃতিতে পাখি ও মৌমাছির প্রজনন প্রক্রিয়ার মাধ্যমে শিশুদের সহজভাবে জীবনের মৌলিক সত্য শেখানোর প্রথা থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Crocodile tears",
+    banglaMeaning: "মায়াকান্না",
+    englishMeaning: "False or insincere tears of sorrow",
+    sentenceEn: "He shed crocodile tears after the layoffs he himself ordered.",
+    sentenceBn: "নিজেই ছাঁটাইয়ের নির্দেশ দিয়ে সে মায়াকান্না দেখাল।",
+    origin: "প্রচলিত পুরনো বিশ্বাস ছিল কুমির শিকার খাওয়ার সময় কান্নার মতো শব্দ করে, যা প্রকৃত দুঃখ নয় — সেখান থেকে ভণ্ড কান্না বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Cupboard love",
+    banglaMeaning: "স্বার্থসিদ্ধির জন্য দেখানো ভালোবাসা",
+    englishMeaning: "Affection shown only for personal gain",
+    sentenceEn: "His kindness to the rich uncle was just cupboard love.",
+    sentenceBn: "ধনী চাচার প্রতি তার সদয়তা ছিল নিছক স্বার্থপ্রসূত।",
+    origin: "শিশু বা পোষা প্রাণী প্রায়ই খাবারের আলমারির (cupboard) কাছে বেশি আদর দেখায়, সেই স্বার্থপ্রসূত স্নেহ থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Cat's paw",
+    banglaMeaning: "অন্যের হাতিয়ার হিসেবে ব্যবহৃত ব্যক্তি",
+    englishMeaning: "A person used by another to do risky work",
+    sentenceEn: "He was used as a cat's paw in the political scheme.",
+    sentenceBn: "রাজনৈতিক ষড়যন্ত্রে তাকে হাতিয়ার হিসেবে ব্যবহার করা হলো।",
+    origin: "একটি প্রাচীন গল্পে বানর বিড়ালকে দিয়ে আগুন থেকে বাদাম তোলায়, বিড়াল পা পোড়ায় আর বানর বাদাম খায় — সেই থেকে অন্যের স্বার্থে ব্যবহৃত ব্যক্তি বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Call it a day",
+    banglaMeaning: "কাজ বন্ধ করা",
+    englishMeaning: "To stop doing something for the rest of the day",
+    sentenceEn: "We've done enough — let's call it a day.",
+    sentenceBn: "আজকের জন্য যথেষ্ট হয়েছে, কাজ শেষ করি।",
+    origin: "বিংশ শতাব্দীর শুরুতে আমেরিকান শ্রমিকদের মধ্যে প্রচলিত 'call it half a day' থেকে সংক্ষিপ্ত হয়ে এই রূপ প্রচলিত হয়।"
+  },
+  {
+    idiom: "Capital punishment",
+    banglaMeaning: "মৃত্যুদণ্ড",
+    englishMeaning: "The death penalty",
+    sentenceEn: "Many countries have abolished capital punishment.",
+    sentenceBn: "অনেক দেশ মৃত্যুদণ্ড বাতিল করেছে।",
+    origin: "ল্যাটিন 'caput' (মাথা) থেকে এসেছে, যেখানে অতীতে মৃত্যুদণ্ড প্রায়ই মাথা কেটে কার্যকর করা হতো।"
+  },
+  {
+    idiom: "Cut to the quick",
+    banglaMeaning: "মর্মাহত হওয়া",
+    englishMeaning: "To hurt someone's feelings deeply",
+    sentenceEn: "Her harsh comment cut him to the quick.",
+    sentenceBn: "তার কড়া মন্তব্য তাকে গভীরভাবে মর্মাহত করল।",
+    origin: "নখ বা চামড়ার নিচের সংবেদনশীল জীবন্ত অংশকে 'quick' বলা হয়, সেখানে আঘাত লাগলে যেমন তীব্র ব্যথা হয়, তেমনি গভীর মানসিক আঘাত বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Catch a tartar",
+    banglaMeaning: "শক্ত প্রতিপক্ষের মুখোমুখি হওয়া",
+    englishMeaning: "To confront someone more powerful than expected",
+    sentenceEn: "He tried to cheat the old man but caught a tartar.",
+    sentenceBn: "সে বৃদ্ধ লোকটিকে ঠকাতে গিয়ে শক্ত প্রতিপক্ষের মুখোমুখি হলো।",
+    origin: "যুদ্ধে তাতার যোদ্ধাদের ভয়ংকর প্রতিরোধের কাহিনি থেকে দুর্বল ভেবে আক্রমণ করে শক্তিশালী প্রতিপক্ষের মুখোমুখি হওয়া বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Cook the books",
+    banglaMeaning: "হিসাবে কারচুপি করা",
+    englishMeaning: "To falsify financial records",
+    sentenceEn: "The accountant was arrested for cooking the books.",
+    sentenceBn: "হিসাবে কারচুপি করার দায়ে হিসাবরক্ষককে গ্রেপ্তার করা হলো।",
+    origin: "রান্নার সময় যেমন উপাদান পাল্টে স্বাদ বদলানো যায়, তেমনি হিসাবের সংখ্যা পাল্টে ফলাফল বদলানোর রূপক থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Call a spade a spade",
+    banglaMeaning: "স্পষ্টাস্পষ্টি কথা বলা",
+    englishMeaning: "To speak plainly and directly",
+    sentenceEn: "I like people who call a spade a spade.",
+    sentenceBn: "আমি তাদের পছন্দ করি যারা স্পষ্টাস্পষ্টি কথা বলে।",
+    origin: "প্রাচীন গ্রিক ভাষা থেকে অনূদিত এই অভিব্যক্তি একটি কোদালকে (spade) কোদালই বলা বোঝায়, অর্থাৎ কোনো কিছু ঘুরিয়ে না বলা।"
+  },
+  {
+    idiom: "Come to light",
+    banglaMeaning: "প্রকাশিত হওয়া",
+    englishMeaning: "To become known publicly",
+    sentenceEn: "The scandal came to light after the investigation.",
+    sentenceBn: "তদন্তের পর কেলেঙ্কারিটি প্রকাশিত হলো।",
+    origin: "অন্ধকার থেকে আলোয় আসার আক্ষরিক চিত্র থেকে গোপন কিছু প্রকাশ পাওয়া বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Cut and dried",
+    banglaMeaning: "ইতিমধ্যে নির্ধারিত ও ফিক্সড",
+    englishMeaning: "Already decided and fixed; not open to change",
+    sentenceEn: "The outcome of the match was cut and dried.",
+    sentenceBn: "ম্যাচের ফলাফল আগে থেকেই নির্ধারিত ছিল।",
+    origin: "কাঠ বা ভেষজ কেটে শুকিয়ে বিক্রির জন্য প্রস্তুত রাখা হতো, যা আর পরিবর্তনযোগ্য নয় — সেখান থেকে চূড়ান্তভাবে নির্ধারিত বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Call in question",
+    banglaMeaning: "সন্দেহ করা",
+    englishMeaning: "To doubt or question something",
+    sentenceEn: "His honesty was called in question by the committee.",
+    sentenceBn: "কমিটি তার সততা নিয়ে প্রশ্ন তুলল।",
+    origin: "কোনো বিষয়কে আলোচনায় (question) ফিরিয়ে আনার অর্থ থেকে সন্দেহ প্রকাশ করা বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Come into force",
+    banglaMeaning: "কার্যকর হওয়া",
+    englishMeaning: "To start being used or applied, as a law",
+    sentenceEn: "The new tax law comes into force next month.",
+    sentenceBn: "নতুন কর আইনটি আগামী মাসে কার্যকর হবে।",
+    origin: "আইন বা নিয়মের বলবৎ হওয়ার আনুষ্ঠানিক ভাষা থেকে প্রচলিত পরিভাষা।"
+  },
+  {
+    idiom: "Die in harness",
+    banglaMeaning: "কর্মরত অবস্থায় মারা যাওয়া",
+    englishMeaning: "To die while still working",
+    sentenceEn: "The old professor died in harness.",
+    sentenceBn: "বৃদ্ধ অধ্যাপক কর্মরত অবস্থায় মারা গেলেন।",
+    origin: "কর্মরত ঘোড়ার গায়ে জোয়াল বা 'harness' পরানো থাকে; কাজ চলাকালীন মৃত্যু বোঝাতে এই রূপক ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Dark horse",
+    banglaMeaning: "অপরিচিত বা চমকপ্রদ প্রতিদ্বন্দ্বী",
+    englishMeaning: "An unknown competitor who unexpectedly succeeds",
+    sentenceEn: "The young candidate turned out to be a dark horse in the election.",
+    sentenceBn: "নির্বাচনে তরুণ প্রার্থীটি অপ্রত্যাশিত চমক হিসেবে আবির্ভূত হলো।",
+    origin: "ঘোড়দৌড়ে যে ঘোড়া সম্পর্কে দর্শকদের তেমন তথ্য নেই অথচ শেষে জিতে যায়, তার থেকে অপ্রত্যাশিত সফল প্রতিদ্বন্দ্বী বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Dog days",
+    banglaMeaning: "গ্রীষ্মের অসহনীয় গরম",
+    englishMeaning: "The hottest, most sultry days of summer",
+    sentenceEn: "We stay indoors during the dog days of summer.",
+    sentenceBn: "গ্রীষ্মের অসহনীয় গরমের দিনগুলোতে আমরা ঘরেই থাকি।",
+    origin: "প্রাচীন রোমানরা বিশ্বাস করতেন গ্রীষ্মের সবচেয়ে গরম সময়ে সাইরিয়াস বা 'কুকুর তারা' সূর্যের সঙ্গে উদিত হয়, যা অতিরিক্ত তাপের কারণ — সেখান থেকেই নামকরণ।"
+  },
+  {
+    idiom: "The die is cast",
+    banglaMeaning: "চূড়ান্ত অপরিবর্তনীয় সিদ্ধান্ত",
+    englishMeaning: "A decision has been made that cannot be changed",
+    sentenceEn: "Once he signed the contract, the die was cast.",
+    sentenceBn: "চুক্তিতে সই করার পরই সিদ্ধান্তটি চূড়ান্ত হয়ে গেল।",
+    origin: "রোমান সেনাপতি জুলিয়াস সিজার রুবিকন নদী পার হওয়ার সময় বলেছিলেন 'দ্য ডাই ইজ কাস্ট', অর্থাৎ পাশা ছোঁড়া হয়ে গেছে, এখন আর পিছু হটার উপায় নেই।"
+  },
+  {
+    idiom: "Fag end",
+    banglaMeaning: "শেষাংশ",
+    englishMeaning: "The last, often worst, part of something",
+    sentenceEn: "He arrived at the fag end of the meeting.",
+    sentenceBn: "সে মিটিংয়ের একদম শেষভাগে এসে পৌঁছাল।",
+    origin: "ব্রিটিশ ইংরেজিতে সিগারেটের পোড়া অবশিষ্ট অংশকে 'fag end' বলা হয়, সেখান থেকে যেকোনো কিছুর শেষাংশ বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "For the sake of",
+    banglaMeaning: "কারণে / নিমিত্তে",
+    englishMeaning: "For the purpose or benefit of",
+    sentenceEn: "He gave up smoking for the sake of his health.",
+    sentenceBn: "স্বাস্থ্যের কারণে সে ধূমপান ছেড়ে দিল।",
+    origin: "কারও বা কোনো কিছুর কল্যাণের উদ্দেশ্যে কিছু করা বোঝাতে সাধারণ ব্যবহারিক অভিব্যক্তি।"
+  },
+  {
+    idiom: "Far cry",
+    banglaMeaning: "সুদূর ব্যবধান",
+    englishMeaning: "Very different from; a long way from",
+    sentenceEn: "This result is a far cry from what we expected.",
+    sentenceBn: "এই ফলাফল আমাদের প্রত্যাশা থেকে বহু দূরে।",
+    origin: "শব্দ বহু দূর পর্যন্ত পৌঁছাতে না পারার চিত্র থেকে বিশাল ব্যবধান বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "A fish out of water",
+    banglaMeaning: "অস্বস্তিকর অবস্থা",
+    englishMeaning: "In an uncomfortable, unfamiliar situation",
+    sentenceEn: "He felt like a fish out of water at the formal party.",
+    sentenceBn: "আনুষ্ঠানিক পার্টিতে সে অস্বস্তি বোধ করছিল।",
+    origin: "মাছ পানির বাইরে যেমন বাঁচতে পারে না ও অস্বস্তিতে ছটফট করে, তেমনি অপরিচিত পরিবেশে অস্বস্তি বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "A foregone conclusion",
+    banglaMeaning: "পূর্বনির্ধারিত ফল",
+    englishMeaning: "A result that is expected or inevitable",
+    sentenceEn: "His victory was a foregone conclusion.",
+    sentenceBn: "তার জয় পূর্বনির্ধারিতই ছিল।",
+    origin: "শেক্সপিয়রের 'ওথেলো' নাটকে ব্যবহৃত এই শব্দগুচ্ছ থেকে পূর্ব থেকেই নিশ্চিত ফলাফল বোঝাতে বাগধারাটি প্রচলিত হয়।"
+  },
+  {
+    idiom: "Fight shy of",
+    banglaMeaning: "এড়িয়ে চলা",
+    englishMeaning: "To avoid something or someone",
+    sentenceEn: "He fights shy of public speaking.",
+    sentenceBn: "সে জনসমক্ষে বক্তৃতা দেওয়া এড়িয়ে চলে।",
+    origin: "ভয় বা দ্বিধার কারণে কোনো কিছু থেকে সরে থাকার চিত্র থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Freelance",
+    banglaMeaning: "স্বাধীন পেশাজীবী",
+    englishMeaning: "Working independently, not tied to one employer",
+    sentenceEn: "She works as a freelance writer.",
+    sentenceBn: "সে একজন স্বাধীন লেখক হিসেবে কাজ করে।",
+    origin: "মধ্যযুগে যেসব ভাড়াটে যোদ্ধা কোনো নির্দিষ্ট প্রভুর অধীন না থেকে যেকোনো পক্ষের হয়ে বর্শা (lance) ব্যবহার করত, তাদের 'ফ্রি ল্যান্স' বলা হতো।"
+  },
+  {
+    idiom: "Green eye",
+    banglaMeaning: "ঈর্ষা",
+    englishMeaning: "Jealousy",
+    sentenceEn: "His success filled his rival with the green eye.",
+    sentenceBn: "তার সাফল্য প্রতিদ্বন্দ্বীর মনে ঈর্ষা জাগাল।",
+    origin: "শেক্সপিয়র ঈর্ষাকে 'সবুজ চোখের দানব' বলে বর্ণনা করেছিলেন, সেখান থেকে ঈর্ষা বোঝাতে বাগধারাটি প্রচলিত হয়।"
+  },
+  {
+    idiom: "Get rid of",
+    banglaMeaning: "মুক্ত হওয়া / ত্যাগ করা",
+    englishMeaning: "To free oneself of something unwanted",
+    sentenceEn: "It's time to get rid of old habits.",
+    sentenceBn: "পুরনো অভ্যাস ত্যাগ করার সময় এসেছে।",
+    origin: "অপ্রয়োজনীয় বা অবাঞ্ছিত কিছু থেকে মুক্তি পাওয়া বোঝাতে সাধারণ ব্যবহারিক অভিব্যক্তি।"
+  },
+  {
+    idiom: "Get across",
+    banglaMeaning: "বোঝাতে সক্ষম হওয়া",
+    englishMeaning: "To succeed in making something understood",
+    sentenceEn: "The teacher finally got her point across.",
+    sentenceBn: "শিক্ষিকা অবশেষে তার বক্তব্য বোঝাতে সক্ষম হলেন।",
+    origin: "কোনো ভাব বা তথ্য একজনের কাছ থেকে অন্যজনের কাছে 'পার' করে দেওয়ার রূপক থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Get along with",
+    banglaMeaning: "মানিয়ে চলা",
+    englishMeaning: "To have a good relationship with someone",
+    sentenceEn: "She gets along with everyone in the office.",
+    sentenceBn: "সে অফিসের সবার সাথে মানিয়ে চলে।",
+    origin: "একসাথে সামনে এগিয়ে চলার (go along) চিত্র থেকে সুসম্পর্ক বজায় রাখা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "All Greek to me",
+    banglaMeaning: "সম্পূর্ণ অবোধ্য",
+    englishMeaning: "Completely incomprehensible",
+    sentenceEn: "This legal document is all Greek to me.",
+    sentenceBn: "এই আইনি নথিটি আমার কাছে সম্পূর্ণ অবোধ্য।",
+    origin: "শেক্সপিয়রের 'জুলিয়াস সিজার' নাটকে ব্যবহৃত এই উক্তি থেকে দুর্বোধ্য কিছু বোঝাতে বাগধারাটি প্রচলিত হয়, কারণ গ্রিক ভাষা সাধারণ মানুষের কাছে দুর্বোধ্য ছিল।"
+  },
+  {
+    idiom: "Gift of the gab",
+    banglaMeaning: "বাকপটুতা",
+    englishMeaning: "The ability to speak fluently and persuasively",
+    sentenceEn: "A good salesman needs the gift of the gab.",
+    sentenceBn: "একজন ভালো বিক্রয়কর্মীর বাকপটুতা থাকা দরকার।",
+    origin: "আইরিশ লোককথায় 'ব্লার্নি স্টোন' চুম্বন করলে বাকপটুতা পাওয়া যায় বলে বিশ্বাস করা হতো, সেখান থেকেই কথা বলার সহজাত দক্ষতা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "To have an axe to grind",
+    banglaMeaning: "ব্যক্তিগত স্বার্থের গোপন উদ্দেশ্য থাকা",
+    englishMeaning: "To have a hidden, self-interested motive",
+    sentenceEn: "He supported the plan, but he had an axe to grind.",
+    sentenceBn: "সে পরিকল্পনাটি সমর্থন করেছিল, কিন্তু তার গোপন স্বার্থ ছিল।",
+    origin: "বেনজামিন ফ্র্যাংকলিনের একটি গল্পে এক ব্যক্তি প্রশংসা করে অন্যকে দিয়ে তার কুড়াল ধার করিয়ে নেয় নিজের স্বার্থে — সেখান থেকে গোপন স্বার্থ বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Head over heels in love",
+    banglaMeaning: "গভীরভাবে প্রেমে পড়া",
+    englishMeaning: "Completely and deeply in love",
+    sentenceEn: "They fell head over heels in love at first sight.",
+    sentenceBn: "প্রথম দর্শনেই তারা গভীর প্রেমে পড়ে গেল।",
+    origin: "উল্টে পড়ে মাথা নিচে ও পা উপরে থাকার চিত্র থেকে সম্পূর্ণভাবে কোনো অনুভূতিতে ডুবে যাওয়া বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "To have full hands",
+    banglaMeaning: "কোনো কাজে পুরোপুরি ব্যস্ত থাকা",
+    englishMeaning: "To be fully occupied",
+    sentenceEn: "I can't help now, I have my hands full.",
+    sentenceBn: "এখন সাহায্য করতে পারব না, আমি পুরোপুরি ব্যস্ত।",
+    origin: "দুই হাত ইতিমধ্যে ভর্তি থাকলে আর কিছু ধরার জায়গা থাকে না — এই চিত্র থেকে সম্পূর্ণ ব্যস্ততা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Head in the clouds",
+    banglaMeaning: "দিবা-স্বপ্নে মগ্ন থাকা",
+    englishMeaning: "Having unrealistic or impractical ideas",
+    sentenceEn: "He always has his head in the clouds instead of focusing on work.",
+    sentenceBn: "কাজে মনোযোগ না দিয়ে সে সবসময় দিবা-স্বপ্নে মগ্ন থাকে।",
+    origin: "মাথা মেঘের মধ্যে থাকলে বাস্তবতার সাথে সংযোগ থাকে না — এই রূপক থেকে অবাস্তব চিন্তায় মগ্ন থাকা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "A hard nut to crack",
+    banglaMeaning: "কঠিন ব্যক্তি বা সমস্যা",
+    englishMeaning: "A difficult problem or person to deal with",
+    sentenceEn: "This math problem is a hard nut to crack.",
+    sentenceBn: "এই অঙ্কের সমস্যাটি সমাধান করা বেশ কঠিন।",
+    origin: "শক্ত খোসার বাদাম ভাঙা যেমন কষ্টসাধ্য, তেমনি জটিল সমস্যা বা মানুষ বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Hold water",
+    banglaMeaning: "যুক্তিতে টিকে থাকা",
+    englishMeaning: "To be logically valid; to withstand scrutiny",
+    sentenceEn: "His argument doesn't hold water.",
+    sentenceBn: "তার যুক্তি টিকছে না।",
+    origin: "ফুটো পাত্র যেমন পানি ধরে রাখতে পারে না, তেমনি দুর্বল যুক্তি পরীক্ষায় টিকে না — এই রূপক থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Hard up",
+    banglaMeaning: "চরম অর্থকষ্টে থাকা",
+    englishMeaning: "Having very little money",
+    sentenceEn: "They were hard up after losing their jobs.",
+    sentenceBn: "চাকরি হারানোর পর তারা চরম অর্থকষ্টে পড়ে।",
+    origin: "কঠিন আর্থিক পরিস্থিতিতে থাকা বোঝাতে সাধারণ ব্যবহারিক অভিব্যক্তি হিসেবে প্রচলিত।"
+  },
+  {
+    idiom: "Herculean task",
+    banglaMeaning: "অত্যন্ত কঠিন কাজ",
+    englishMeaning: "A task requiring great strength or effort",
+    sentenceEn: "Rebuilding the flood-hit village was a Herculean task.",
+    sentenceBn: "বন্যাবিধ্বস্ত গ্রামটি পুনর্গঠন করা ছিল অত্যন্ত কঠিন এক কাজ।",
+    origin: "গ্রিক পুরাণের বীর হারকিউলিসকে বারোটি অসম্ভব কঠিন কাজ সম্পন্ন করতে হয়েছিল, সেখান থেকেই অতিমানবিক পরিশ্রমের কাজ বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "In the pipeline",
+    banglaMeaning: "প্রস্তুতির পর্যায়ে থাকা",
+    englishMeaning: "Being planned or prepared but not yet public",
+    sentenceEn: "Several new projects are in the pipeline.",
+    sentenceBn: "বেশ কিছু নতুন প্রকল্প প্রস্তুতির পর্যায়ে আছে।",
+    origin: "তেল বা গ্যাস পাইপলাইনের মধ্য দিয়ে চলাচলের মতো, পরিকল্পনা যা প্রক্রিয়াধীন কিন্তু এখনো প্রকাশ্যে আসেনি তা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "In high spirits",
+    banglaMeaning: "উৎফুল্ল",
+    englishMeaning: "Cheerful and happy",
+    sentenceEn: "The whole team was in high spirits after the win.",
+    sentenceBn: "জয়ের পর পুরো দল উৎফুল্ল ছিল।",
+    origin: "উঁচু (high) মনোবল বা প্রাণশক্তি বোঝাতে সরাসরি ব্যবহৃত রূপক অভিব্যক্তি।"
+  },
+  {
+    idiom: "In good time",
+    banglaMeaning: "সময়মতো / শীঘ্রই",
+    englishMeaning: "Soon enough; punctually",
+    sentenceEn: "We reached the station in good time.",
+    sentenceBn: "আমরা সময়মতো স্টেশনে পৌঁছালাম।",
+    origin: "নির্ধারিত সময়ের আগে বা যথাসময়ে পৌঁছানো বোঝাতে সাধারণ ব্যবহারিক অভিব্যক্তি।"
+  },
+  {
+    idiom: "In no time",
+    banglaMeaning: "খুব তাড়াতাড়ি",
+    englishMeaning: "Very quickly; almost instantly",
+    sentenceEn: "The news spread in no time.",
+    sentenceBn: "খবরটি খুব তাড়াতাড়ি ছড়িয়ে পড়ল।",
+    origin: "সময় লাগেনি বললেই চলে এমন দ্রুততা বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Ins and outs",
+    banglaMeaning: "খুঁটিনাটি বিষয়",
+    englishMeaning: "All the detailed facts of something",
+    sentenceEn: "He knows the ins and outs of this business.",
+    sentenceBn: "সে এই ব্যবসার খুঁটিনাটি সব জানে।",
+    origin: "কোনো বিষয়ের ভেতর-বাহির উভয় দিক ভালোভাবে জানা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "In the bargain",
+    banglaMeaning: "অধিকন্তু / উপরন্তু",
+    englishMeaning: "In addition; furthermore",
+    sentenceEn: "He got a discount and a free gift in the bargain.",
+    sentenceBn: "সে ছাড় পেল এবং উপরন্তু একটি উপহারও পেল।",
+    origin: "লেনদেন বা দর কষাকষির (bargain) সময় অতিরিক্ত কিছু পাওয়া বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Keep your nose out of something",
+    banglaMeaning: "অপ্রাসঙ্গিক বিষয় এড়িয়ে চলা",
+    englishMeaning: "To avoid interfering in something that doesn't concern you",
+    sentenceEn: "Keep your nose out of my personal matters.",
+    sentenceBn: "আমার ব্যক্তিগত বিষয়ে নাক গলিও না।",
+    origin: "নাক (nose) কারও ব্যাপারে প্রবেশ করানোর অর্থে অপ্রয়োজনীয় হস্তক্ষেপ বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Keep an eye on",
+    banglaMeaning: "সতর্ক দৃষ্টি রাখা",
+    englishMeaning: "To watch or look after carefully",
+    sentenceEn: "Please keep an eye on the children while I'm out.",
+    sentenceBn: "আমি বাইরে থাকাকালীন বাচ্চাদের দিকে খেয়াল রেখো।",
+    origin: "চোখ দিয়ে ক্রমাগত পর্যবেক্ষণ করার আক্ষরিক চিত্র থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Kith and kin",
+    banglaMeaning: "আত্মীয়-পরিজন",
+    englishMeaning: "Relatives and close friends",
+    sentenceEn: "He invited all his kith and kin to the wedding.",
+    sentenceBn: "সে তার সব আত্মীয়-পরিজনকে বিয়েতে দাওয়াত দিল।",
+    origin: "পুরনো ইংরেজি 'kith' (পরিচিত বন্ধু) ও 'kin' (রক্তের সম্পর্ক) শব্দ দুটি একত্রে আত্মীয়স্বজন বোঝাতে ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Look blank",
+    banglaMeaning: "হতভম্ব হয়ে তাকিয়ে থাকা",
+    englishMeaning: "To look confused or uncomprehending",
+    sentenceEn: "He looked blank when asked about the missing files.",
+    sentenceBn: "হারিয়ে যাওয়া ফাইল সম্পর্কে জিজ্ঞেস করা হলে সে হতভম্ব হয়ে তাকিয়ে রইল।",
+    origin: "খালি বা শূন্য (blank) মুখভঙ্গি থেকে বিভ্রান্তি বা বোধশূন্যতা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Light up",
+    banglaMeaning: "হঠাৎ আনন্দিত হওয়া",
+    englishMeaning: "To suddenly look happy or excited",
+    sentenceEn: "Her face lit up when she saw the gift.",
+    sentenceBn: "উপহারটি দেখে তার মুখ আনন্দে উজ্জ্বল হয়ে উঠল।",
+    origin: "আলো জ্বলে ওঠার (light up) আক্ষরিক চিত্র থেকে হঠাৎ আনন্দ প্রকাশ পাওয়া বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Lose heart",
+    banglaMeaning: "সাহস হারানো",
+    englishMeaning: "To become discouraged",
+    sentenceEn: "Don't lose heart after one failure.",
+    sentenceBn: "একটি ব্যর্থতার পর সাহস হারিয়ো না।",
+    origin: "মনোবল বা সাহসের কেন্দ্র হিসেবে হৃদয়কে (heart) কল্পনা করে হতাশ হওয়া বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Learn by heart",
+    banglaMeaning: "মুখস্থ করা",
+    englishMeaning: "To memorize completely",
+    sentenceEn: "She learned the whole poem by heart.",
+    sentenceBn: "সে পুরো কবিতাটি মুখস্থ করে ফেলল।",
+    origin: "হৃদয়কে (heart) স্মৃতির কেন্দ্র হিসেবে বিবেচনা করে সম্পূর্ণভাবে মনে রাখা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Loaves and fishes",
+    banglaMeaning: "ব্যক্তিগত বা বস্তুগত স্বার্থ",
+    englishMeaning: "Personal or material gains sought under a good cause",
+    sentenceEn: "Some join charities only for loaves and fishes.",
+    sentenceBn: "কেউ কেউ শুধু ব্যক্তিগত স্বার্থেই দাতব্য সংস্থায় যোগ দেয়।",
+    origin: "বাইবেলে যিশুর রুটি ও মাছ দিয়ে বহু মানুষকে খাওয়ানোর কাহিনি থেকে এসেছে, যেখানে অনেকে বিশ্বাসের চেয়ে বস্তুগত লাভের আশায় অনুসরণ করত।"
+  },
+  {
+    idiom: "Live and let live",
+    banglaMeaning: "অন্যের মত মেনে নেওয়া",
+    englishMeaning: "To accept others' views without interference",
+    sentenceEn: "Our philosophy is simple — live and let live.",
+    sentenceBn: "আমাদের দর্শন সহজ — নিজে বাঁচো এবং অন্যকেও বাঁচতে দাও।",
+    origin: "পারস্পরিক সহনশীলতা ও শান্তিপূর্ণ সহাবস্থানের নীতি হিসেবে বহুদিন ধরে প্রচলিত অভিব্যক্তি।"
+  },
+  {
+    idiom: "Leave no stone unturned",
+    banglaMeaning: "সর্বাত্মক চেষ্টা করা",
+    englishMeaning: "To try every possible means",
+    sentenceEn: "Police left no stone unturned to find the culprit.",
+    sentenceBn: "পুলিশ অপরাধীকে খুঁজে বের করতে সর্বাত্মক চেষ্টা করল।",
+    origin: "প্রাচীন গ্রিক কাহিনিতে এক সেনাপতির গুপ্তধন খুঁজতে প্রতিটি পাথর উল্টে দেখার নির্দেশনা থেকে সর্বাত্মক প্রচেষ্টা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Milk and water",
+    banglaMeaning: "ভীরু / দুর্বল",
+    englishMeaning: "Weak, feeble, or lacking substance",
+    sentenceEn: "His milk and water speech failed to inspire anyone.",
+    sentenceBn: "তার দুর্বল বক্তৃতা কাউকে অনুপ্রাণিত করতে পারল না।",
+    origin: "পানি মেশানো দুধ যেমন স্বাদহীন ও দুর্বল হয়, তেমনি প্রাণহীন বা ভীরু কিছু বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "To make a living",
+    banglaMeaning: "জীবিকা উপার্জন করা",
+    englishMeaning: "To earn money to support oneself",
+    sentenceEn: "He makes a living as a freelance photographer.",
+    sentenceBn: "সে স্বাধীন আলোকচিত্রী হিসেবে জীবিকা উপার্জন করে।",
+    origin: "জীবনধারণের জন্য অর্থ উপার্জনের সাধারণ ব্যবহারিক অভিব্যক্তি।"
+  },
+  {
+    idiom: "To meet trouble half-way",
+    banglaMeaning: "অনাগত সমস্যা নিয়ে অহেতুক দুশ্চিন্তা করা",
+    englishMeaning: "To worry unnecessarily about problems that haven't happened yet",
+    sentenceEn: "Don't meet trouble half-way — wait and see what happens.",
+    sentenceBn: "অহেতুক আগেভাগে দুশ্চিন্তা কোরো না, দেখো কী হয়।",
+    origin: "সমস্যা এখনো না এলেও তার দিকে এগিয়ে গিয়ে চিন্তা করার রূপক থেকে অকারণ উদ্বেগ বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Nipped in the bud",
+    banglaMeaning: "শুরুতেই ধ্বংস হওয়া",
+    englishMeaning: "Destroyed or stopped at an early stage",
+    sentenceEn: "The rebellion was nipped in the bud.",
+    sentenceBn: "বিদ্রোহটি অঙ্কুরেই বিনষ্ট করা হলো।",
+    origin: "একটি ফুলের কুঁড়ি (bud) খুলে ফোটার আগেই ছিঁড়ে ফেললে যেমন তা আর বাড়তে পারে না, তেমনি কোনো কিছু শুরুতেই দমন করা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Out of one's wits",
+    banglaMeaning: "বুদ্ধিভ্রষ্ট হওয়া",
+    englishMeaning: "To be extremely frightened or confused",
+    sentenceEn: "The sudden noise scared her out of her wits.",
+    sentenceBn: "হঠাৎ শব্দে সে ভয়ে হতবুদ্ধি হয়ে গেল।",
+    origin: "স্বাভাবিক বুদ্ধি বা বিচারবোধ (wits) হারিয়ে ফেলার চিত্র থেকে চরম ভয় বা বিভ্রান্তি বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Of late",
+    banglaMeaning: "সম্প্রতি",
+    englishMeaning: "Recently",
+    sentenceEn: "He has been unwell of late.",
+    sentenceBn: "সে সম্প্রতি অসুস্থ আছে।",
+    origin: "সাম্প্রতিক সময়কাল বোঝাতে পুরনো ইংরেজি সাহিত্যিক ভাষা থেকে প্রচলিত।"
+  },
+  {
+    idiom: "On the eve of",
+    banglaMeaning: "ঠিক পূর্বমুহূর্তে",
+    englishMeaning: "Just before an important event",
+    sentenceEn: "The country was on the eve of independence.",
+    sentenceBn: "দেশটি স্বাধীনতার ঠিক পূর্বমুহূর্তে ছিল।",
+    origin: "উৎসব বা গুরুত্বপূর্ণ দিনের ঠিক আগের সন্ধ্যাকে (eve) বোঝাতে ব্যবহৃত রূপক এখন যেকোনো ঘটনার আগমুহূর্ত বোঝাতে ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Point blank",
+    banglaMeaning: "সরাসরি / স্পষ্টভাবে",
+    englishMeaning: "Directly and bluntly",
+    sentenceEn: "She refused the offer point blank.",
+    sentenceBn: "সে সরাসরি প্রস্তাবটি প্রত্যাখ্যান করল।",
+    origin: "খুব কাছ থেকে সরাসরি গুলি ছোঁড়ার সামরিক পরিভাষা থেকে স্পষ্ট ও সরাসরি কথা বলা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "To push somebody to the wall",
+    banglaMeaning: "কোণঠাসা করা",
+    englishMeaning: "To force someone into a very difficult position",
+    sentenceEn: "Constant criticism pushed him to the wall.",
+    sentenceBn: "ক্রমাগত সমালোচনা তাকে কোণঠাসা করে ফেলল।",
+    origin: "দেয়ালের (wall) দিকে ঠেলে দিলে পালানোর কোনো পথ থাকে না — এই চিত্র থেকে সংকটে ফেলা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Pin money",
+    banglaMeaning: "ব্যক্তিগত ছোটখাটো খরচের সঞ্চয়",
+    englishMeaning: "A small amount of money for minor personal expenses",
+    sentenceEn: "She saves her pin money to buy small gifts.",
+    sentenceBn: "সে ছোটখাটো উপহার কেনার জন্য নিজের সঞ্চিত অর্থ রাখে।",
+    origin: "অতীতে নারীরা পিন কেনার জন্য স্বামীর কাছ থেকে সামান্য অর্থ পেতেন, সেখান থেকে ব্যক্তিগত ছোট সঞ্চয় বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "To put one's foot down",
+    banglaMeaning: "দৃঢ় অবস্থান নেওয়া",
+    englishMeaning: "To take a firm stand and refuse to change it",
+    sentenceEn: "Finally, the father put his foot down and refused.",
+    sentenceBn: "অবশেষে বাবা দৃঢ় অবস্থান নিয়ে প্রত্যাখ্যান করলেন।",
+    origin: "পা শক্ত করে মাটিতে রাখার ভঙ্গি থেকে দৃঢ়তা ও অনড় অবস্থান বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "To play on a fiddle",
+    banglaMeaning: "সময় অপচয় করা",
+    englishMeaning: "To waste time on unimportant matters",
+    sentenceEn: "Instead of working, he keeps playing on a fiddle.",
+    sentenceBn: "কাজ না করে সে শুধু সময় নষ্ট করে।",
+    origin: "কিংবদন্তি অনুযায়ী রোমান সম্রাট নিরো রোম নগরী পুড়ে যাওয়ার সময় বেহালা বাজাচ্ছিলেন — সেখান থেকে গুরুত্বপূর্ণ সময়ে অকারণ কাজ করা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Pass the buck",
+    banglaMeaning: "দায়িত্ব অন্যের ঘাড়ে চাপানো",
+    englishMeaning: "To shift blame or responsibility to someone else",
+    sentenceEn: "Don't pass the buck — take responsibility for your mistake.",
+    sentenceBn: "দায় অন্যের ঘাড়ে চাপিয়ো না, নিজের ভুলের দায়িত্ব নাও।",
+    origin: "পোকার খেলায় পরবর্তী ডিলারকে বোঝাতে একটি বস্তু (buck) হাতবদল করা হতো — সেখান থেকে দায়িত্ব হস্তান্তর বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "To raise one's brows",
+    banglaMeaning: "বিস্ময় প্রকাশ করা",
+    englishMeaning: "To show surprise or disapproval",
+    sentenceEn: "He raised his brows at the unexpected news.",
+    sentenceBn: "অপ্রত্যাশিত খবরে সে ভ্রু কুঁচকে বিস্ময় প্রকাশ করল।",
+    origin: "ভ্রু (brow) উঁচু করার স্বাভাবিক শারীরিক প্রতিক্রিয়া থেকে বিস্ময় বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Run counter to",
+    banglaMeaning: "বিরোধিতা করা",
+    englishMeaning: "To go against or contradict",
+    sentenceEn: "His actions run counter to the company's values.",
+    sentenceBn: "তার কাজ কোম্পানির মূল্যবোধের বিরোধী।",
+    origin: "বিপরীত (counter) দিকে দৌড়ানোর চিত্র থেকে বিরোধিতা করা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Stumbling block",
+    banglaMeaning: "বাধা / প্রতিবন্ধকতা",
+    englishMeaning: "An obstacle that prevents progress",
+    sentenceEn: "Lack of funding is the main stumbling block for the project.",
+    sentenceBn: "তহবিলের অভাব প্রকল্পের প্রধান বাধা।",
+    origin: "পথে পড়ে থাকা পাথরে হোঁচট খেলে (stumble) এগোনো কঠিন হয়, সেখান থেকে বাধা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Red letter day",
+    banglaMeaning: "স্মরণীয় বা আনন্দের দিন",
+    englishMeaning: "A memorable and happy day",
+    sentenceEn: "Her graduation day was a red letter day for the family.",
+    sentenceBn: "তার সমাবর্তনের দিনটি পরিবারের জন্য ছিল স্মরণীয় এক দিন।",
+    origin: "পুরনো ক্যালেন্ডারে বিশেষ উৎসব বা পবিত্র দিনগুলো লাল কালিতে চিহ্নিত করা হতো, সেখান থেকে গুরুত্বপূর্ণ দিন বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Run riot",
+    banglaMeaning: "বেপরোয়াভাবে আচরণ করা",
+    englishMeaning: "To behave in an uncontrolled, lawless way",
+    sentenceEn: "The crowd ran riot after the match.",
+    sentenceBn: "ম্যাচের পর জনতা বেপরোয়াভাবে আচরণ শুরু করল।",
+    origin: "নিয়ন্ত্রণহীন দাঙ্গা (riot) থেকে বিশৃঙ্খল ও বেপরোয়া আচরণ বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "A round dozen",
+    banglaMeaning: "পূর্ণ এক ডজন",
+    englishMeaning: "Exactly twelve",
+    sentenceEn: "He collected a round dozen of rare stamps.",
+    sentenceBn: "সে পুরো এক ডজন দুর্লভ ডাকটিকিট সংগ্রহ করল।",
+    origin: "সংখ্যাটি নির্ভুলভাবে ১২ বোঝাতে ব্যবহৃত সাধারণ অভিব্যক্তি।"
+  },
+  {
+    idiom: "A baker's dozen",
+    banglaMeaning: "তেরোটি",
+    englishMeaning: "Thirteen items instead of twelve",
+    sentenceEn: "The bakery gave us a baker's dozen of muffins.",
+    sentenceBn: "বেকারিটি আমাদের তেরোটি মাফিন দিল।",
+    origin: "মধ্যযুগে রুটি বিক্রেতারা কম ওজনের জরিমানা এড়াতে গ্রাহককে একটি অতিরিক্ত রুটি বিনামূল্যে দিতেন, সেখান থেকে তেরো সংখ্যাটির নামকরণ।"
+  },
+  {
+    idiom: "Red tape",
+    banglaMeaning: "আমলাতান্ত্রিক জটিলতা",
+    englishMeaning: "Excessive bureaucratic rules and procedures",
+    sentenceEn: "The project was delayed due to red tape.",
+    sentenceBn: "আমলাতান্ত্রিক জটিলতার কারণে প্রকল্পটি বিলম্বিত হলো।",
+    origin: "অতীতে ব্রিটিশ ও ইউরোপীয় সরকারি নথি লাল ফিতা দিয়ে বাঁধা হতো, সেখান থেকে ধীরগতির আমলাতান্ত্রিক প্রক্রিয়া বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "The rainy day",
+    banglaMeaning: "দুর্দিন",
+    englishMeaning: "A future time of difficulty, especially financial",
+    sentenceEn: "Save some money for a rainy day.",
+    sentenceBn: "দুর্দিনের জন্য কিছু টাকা সঞ্চয় করে রাখো।",
+    origin: "হঠাৎ বৃষ্টিতে যেমন প্রস্তুতি প্রয়োজন হয়, তেমনি ভবিষ্যতের কঠিন সময়ের জন্য প্রস্তুতি বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Riding for a fall",
+    banglaMeaning: "নিশ্চিত পতনের দিকে এগিয়ে যাওয়া",
+    englishMeaning: "Behaving recklessly in a way that will lead to failure",
+    sentenceEn: "By ignoring warnings, he is riding for a fall.",
+    sentenceBn: "সতর্কবার্তা উপেক্ষা করে সে নিশ্চিত পতনের দিকে এগিয়ে যাচ্ছে।",
+    origin: "বেপরোয়াভাবে ঘোড়া চালালে পতনের ঝুঁকি থাকে — এই চিত্র থেকে হঠকারী আচরণ বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "The salt of the earth",
+    banglaMeaning: "আদর্শ ও উত্তম মানুষ",
+    englishMeaning: "A very good, honest, and dependable person",
+    sentenceEn: "Her grandparents were the salt of the earth.",
+    sentenceBn: "তার দাদা-দাদি ছিলেন সবচেয়ে ভালো মানুষদের একজন।",
+    origin: "বাইবেলে যিশু তাঁর অনুসারীদের 'পৃথিবীর লবণ' বলে সম্বোধন করেন, যা সমাজের মূল্যবান ও নির্ভরযোগ্য মানুষ বোঝায়।"
+  },
+  {
+    idiom: "Eye to eye",
+    banglaMeaning: "একমত হওয়া",
+    englishMeaning: "In full agreement",
+    sentenceEn: "The partners finally saw eye to eye on the deal.",
+    sentenceBn: "অংশীদাররা অবশেষে চুক্তির বিষয়ে একমত হলো।",
+    origin: "দুজনের সরাসরি চোখে চোখ রেখে দেখার চিত্র থেকে সম্পূর্ণ একমত হওয়া বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "A slow coach",
+    banglaMeaning: "অলস প্রকৃতির মানুষ",
+    englishMeaning: "A person who is slow or lazy in doing things",
+    sentenceEn: "He is such a slow coach that he's always late.",
+    sentenceBn: "সে এতটাই অলস যে সবসময় দেরি করে।",
+    origin: "ধীরগতির ঘোড়ার গাড়ি (coach) থেকে ধীর বা অলস ব্যক্তি বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Hush money",
+    banglaMeaning: "মুখ বন্ধ রাখার জন্য ঘুষ",
+    englishMeaning: "Money paid to keep someone silent",
+    sentenceEn: "The company allegedly paid hush money to the witness.",
+    sentenceBn: "অভিযোগ আছে কোম্পানিটি সাক্ষীকে মুখ বন্ধ রাখতে ঘুষ দিয়েছিল।",
+    origin: "কাউকে চুপ (hush) রাখার বিনিময়ে অর্থ দেওয়ার সরাসরি অর্থ থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Speed money",
+    banglaMeaning: "কাজ দ্রুত করানোর জন্য ঘুষ",
+    englishMeaning: "A bribe paid to speed up a process",
+    sentenceEn: "He had to pay speed money to get his passport quickly.",
+    sentenceBn: "দ্রুত পাসপোর্ট পেতে তাকে ঘুষ দিতে হলো।",
+    origin: "প্রশাসনিক কাজ দ্রুততর (speed) করানোর বিনিময়ে ঘুষ দেওয়ার প্রথা থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Sit on the fence",
+    banglaMeaning: "নিরপেক্ষ থাকা",
+    englishMeaning: "To avoid taking sides in a dispute",
+    sentenceEn: "He always sits on the fence during political debates.",
+    sentenceBn: "রাজনৈতিক বিতর্কে সে সবসময় নিরপেক্ষ থাকে।",
+    origin: "বেড়ার (fence) উপর বসে থাকলে কোনো এক পাশে না গিয়ে দুই পক্ষের মাঝামাঝি থাকা যায় — সেখান থেকে নিরপেক্ষতা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Three score",
+    banglaMeaning: "ষাট",
+    englishMeaning: "Sixty (score = twenty)",
+    sentenceEn: "He lived for three score and ten years.",
+    sentenceBn: "তিনি সত্তর বছর বেঁচে ছিলেন।",
+    origin: "পুরনো ইংরেজিতে 'score' মানে বিশ, তাই তিন স্কোর মানে ষাট সংখ্যাটি বোঝাতে ব্যবহৃত হতো।"
+  },
+  {
+    idiom: "To be partial to something",
+    banglaMeaning: "কোনো কিছু অতিরিক্ত পছন্দ করা",
+    englishMeaning: "To have a strong liking for something",
+    sentenceEn: "She is partial to sweets.",
+    sentenceBn: "সে মিষ্টি খুব পছন্দ করে।",
+    origin: "পক্ষপাতিত্বের (partial) ধারণা থেকে বিশেষ কোনো কিছুর প্রতি অতিরিক্ত পছন্দ বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Tooth and nail",
+    banglaMeaning: "প্রাণপণে",
+    englishMeaning: "With great effort and determination",
+    sentenceEn: "They fought tooth and nail to save the old building.",
+    sentenceBn: "পুরনো ভবনটি রক্ষার জন্য তারা প্রাণপণে লড়াই করল।",
+    origin: "পশুরা লড়াইয়ের সময় দাঁত ও নখ (tooth and nail) ব্যবহার করে সর্বশক্তি দিয়ে যুদ্ধ করে, সেখান থেকে চরম প্রচেষ্টা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "At one's wits' end",
+    banglaMeaning: "হতবুদ্ধি হওয়া",
+    englishMeaning: "Not knowing what to do; perplexed",
+    sentenceEn: "She was at her wits' end trying to solve the problem.",
+    sentenceBn: "সমস্যাটি সমাধানের চেষ্টা করতে করতে সে হতবুদ্ধি হয়ে গেল।",
+    origin: "নিজের বুদ্ধি বা কৌশলের (wits) একেবারে শেষ প্রান্তে পৌঁছে যাওয়ার চিত্র থেকে দিশেহারা হওয়া বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Taken to task",
+    banglaMeaning: "তিরস্কৃত হওয়া",
+    englishMeaning: "To be scolded or criticized for a mistake",
+    sentenceEn: "He was taken to task for his careless report.",
+    sentenceBn: "তার অসতর্ক প্রতিবেদনের জন্য তাকে তিরস্কার করা হলো।",
+    origin: "কারও কাজ (task) নিয়ে জবাবদিহি করানোর চিত্র থেকে তিরস্কার বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Toot your own horn",
+    banglaMeaning: "নিজের বড়াই করা",
+    englishMeaning: "To boast about oneself",
+    sentenceEn: "He never misses a chance to toot his own horn.",
+    sentenceBn: "নিজের বড়াই করার কোনো সুযোগ সে হাতছাড়া করে না।",
+    origin: "নিজেই নিজের শিঙা (horn) বাজিয়ে প্রশংসা করার রূপক থেকে আত্মপ্রচার বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Tittle-tattle",
+    banglaMeaning: "পরচর্চা",
+    englishMeaning: "Idle gossip",
+    sentenceEn: "The neighbours are always busy with tittle-tattle.",
+    sentenceBn: "প্রতিবেশীরা সবসময় পরচর্চায় ব্যস্ত থাকে।",
+    origin: "ছন্দময় শব্দ পুনরাবৃত্তির (rhyming reduplication) মাধ্যমে গুরুত্বহীন বকবকানি বা গুজব বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Throw cold water on",
+    banglaMeaning: "নিরুৎসাহিত করা",
+    englishMeaning: "To discourage or dampen enthusiasm",
+    sentenceEn: "The manager threw cold water on the new proposal.",
+    sentenceBn: "ম্যানেজার নতুন প্রস্তাবটিকে নিরুৎসাহিত করলেন।",
+    origin: "আগুনে ঠান্ডা পানি ঢাললে তা যেমন নিভে যায়, তেমনি উৎসাহ বা পরিকল্পনা দমিয়ে দেওয়া বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "A vicious circle",
+    banglaMeaning: "দুষ্টচক্র",
+    englishMeaning: "A situation where one problem causes another, worsening things",
+    sentenceEn: "Poverty and poor education form a vicious circle.",
+    sentenceBn: "দারিদ্র্য ও নিম্নমানের শিক্ষা একটি দুষ্টচক্র তৈরি করে।",
+    origin: "একটি সমস্যা আরেকটি সমস্যার জন্ম দিয়ে বৃত্তাকারে ফিরে আসার চিত্র থেকে বাগধারাটি এসেছে, যেখান থেকে বের হওয়া কঠিন।"
+  },
+  {
+    idiom: "A white lie",
+    banglaMeaning: "নিরীহ মিথ্যা",
+    englishMeaning: "A harmless lie told to avoid hurting someone",
+    sentenceEn: "She told a white lie to protect her friend's feelings.",
+    sentenceBn: "বন্ধুর অনুভূতি রক্ষা করতে সে একটি নিরীহ মিথ্যা বলল।",
+    origin: "সাদা রঙ (white) নির্দোষতার প্রতীক, তাই ক্ষতিহীন মিথ্যা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "White collar job",
+    banglaMeaning: "মানসিক শ্রমের চাকরি",
+    englishMeaning: "A professional job without manual labour",
+    sentenceEn: "After graduation, he got a white collar job in a bank.",
+    sentenceBn: "স্নাতক শেষ করার পর সে একটি ব্যাংকে মানসিক শ্রমের চাকরি পেল।",
+    origin: "অফিসে কর্মরত পেশাজীবীরা সাধারণত সাদা কলারের শার্ট পরতেন, সেখান থেকে দাপ্তরিক পেশা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Word for word",
+    banglaMeaning: "হুবহু শব্দে শব্দে",
+    englishMeaning: "Using exactly the same words",
+    sentenceEn: "He repeated the speech word for word.",
+    sentenceBn: "সে বক্তৃতাটি হুবহু শব্দে শব্দে পুনরাবৃত্তি করল।",
+    origin: "কোনো কিছু নির্ভুলভাবে ও হুবহু পুনরাবৃত্তি বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "With open arms",
+    banglaMeaning: "সাগ্রহে / উষ্ণভাবে",
+    englishMeaning: "Warmly and enthusiastically",
+    sentenceEn: "They welcomed the new members with open arms.",
+    sentenceBn: "তারা নতুন সদস্যদের উষ্ণভাবে স্বাগত জানাল।",
+    origin: "দুই হাত মেলে আলিঙ্গনের ভঙ্গি থেকে উষ্ণ ও আন্তরিক স্বাগত জানানো বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "To catch off guard",
+    banglaMeaning: "অসতর্ক অবস্থায় ধরা",
+    englishMeaning: "To surprise someone when they are unprepared",
+    sentenceEn: "The sudden question caught him off guard.",
+    sentenceBn: "হঠাৎ প্রশ্নটি তাকে অপ্রস্তুত অবস্থায় ফেলে দিল।",
+    origin: "সামরিক পরিভাষা 'guard' বা প্রহরা থেকে এসেছে, যেখানে প্রহরাহীন অবস্থায় আক্রমণ করা বোঝায়।"
+  },
+  {
+    idiom: "Icing on the cake",
+    banglaMeaning: "সুন্দর কিন্তু অপ্রয়োজনীয় সংযোজন",
+    englishMeaning: "An extra, pleasant addition to something already good",
+    sentenceEn: "The bonus was just icing on the cake after the promotion.",
+    sentenceBn: "পদোন্নতির পর বোনাসটি ছিল বাড়তি এক আনন্দ।",
+    origin: "কেকের উপর মিষ্টি প্রলেপ (icing) কেকের স্বাদ না বাড়ালেও একে আরও আকর্ষণীয় করে তোলে — সেখান থেকে বাড়তি সুন্দর সংযোজন বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Extempore speech",
+    banglaMeaning: "প্রস্তুতিহীন বক্তৃতা",
+    englishMeaning: "A speech given without prior preparation",
+    sentenceEn: "She delivered an impressive extempore speech at the seminar.",
+    sentenceBn: "সেমিনারে সে একটি চমৎকার প্রস্তুতিহীন বক্তৃতা দিল।",
+    origin: "ল্যাটিন 'ex tempore' অর্থাৎ 'সময়ের মধ্য থেকে' থেকে এসেছে, যা তাৎক্ষণিক বক্তৃতা বোঝায়।"
+  },
+  {
+    idiom: "Smell a rat",
+    banglaMeaning: "সন্দেহজনক কিছু আঁচ করা",
+    englishMeaning: "To suspect that something is wrong",
+    sentenceEn: "When the numbers didn't match, the auditor smelled a rat.",
+    sentenceBn: "সংখ্যাগুলো না মেলায় নিরীক্ষক সন্দেহ করলেন কিছু একটা গোলমাল আছে।",
+    origin: "বিড়াল যেভাবে গন্ধ শুঁকে ইঁদুরের উপস্থিতি টের পায়, তেমনি অদৃশ্য বিপদ বা সমস্যা আঁচ করা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Let the cat out of the bag",
+    banglaMeaning: "গোপন তথ্য ফাঁস করা",
+    englishMeaning: "To reveal a secret accidentally",
+    sentenceEn: "He let the cat out of the bag about the surprise party.",
+    sentenceBn: "সে অসাবধানতাবশত সারপ্রাইজ পার্টির কথা ফাঁস করে দিল।",
+    origin: "মধ্যযুগীয় বাজারে অসাধু বিক্রেতারা শূকরের বদলে বস্তায় বিড়াল ভরে বিক্রি করত। বস্তা খুলে বিড়াল বের হলেই প্রতারণা ধরা পড়ত, সেখান থেকেই বাগধারাটির উৎপত্তি।"
+  },
+  {
+    idiom: "Genuflect",
+    banglaMeaning: "হাঁটু গেড়ে বসা / নতি স্বীকার করা",
+    englishMeaning: "To kneel out of respect, or to submit servilely",
+    sentenceEn: "He genuflected before the altar.",
+    sentenceBn: "সে বেদির সামনে হাঁটু গেড়ে বসল।",
+    origin: "ল্যাটিন 'genu' (হাঁটু) ও 'flectere' (বাঁকানো) থেকে শব্দটি এসেছে, যা শ্রদ্ধা প্রদর্শনের জন্য হাঁটু গেড়ে বসাকে বোঝায়।"
+  },
+  {
+    idiom: "At large",
+    banglaMeaning: "স্বাধীনভাবে / ধরাছোঁয়ার বাইরে",
+    englishMeaning: "Free; not confined; in general",
+    sentenceEn: "The escaped prisoner is still at large.",
+    sentenceBn: "পলাতক আসামি এখনো ধরাছোঁয়ার বাইরে।",
+    origin: "'Large' শব্দের পুরনো অর্থ ছিল মুক্ত বা বিস্তৃত, সেখান থেকে মুক্ত অবস্থা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Giving someone the cold shoulder",
+    banglaMeaning: "অবজ্ঞা করা",
+    englishMeaning: "To deliberately ignore or be unfriendly to someone",
+    sentenceEn: "After the argument, she gave him the cold shoulder.",
+    sentenceBn: "ঝগড়ার পর সে তাকে অবজ্ঞা করতে শুরু করল।",
+    origin: "মধ্যযুগে অবাঞ্ছিত অতিথিদের গরম খাবারের বদলে ঠান্ডা মাংসের কাঁধ পরিবেশন করা হতো, যা অবজ্ঞার ইঙ্গিত দিত।"
+  },
+  {
+    idiom: "To doctor",
+    banglaMeaning: "কারচুপি করা",
+    englishMeaning: "To alter something dishonestly",
+    sentenceEn: "The evidence had been doctored before submission.",
+    sentenceBn: "জমা দেওয়ার আগেই প্রমাণটি কারচুপি করা হয়েছিল।",
+    origin: "চিকিৎসকের (doctor) ওষুধে ভেজাল মেশানোর পুরনো ধারণা থেকে কোনো কিছু অসাধুভাবে পরিবর্তন করা বোঝাতে ক্রিয়াপদটি এসেছে।"
+  },
+  {
+    idiom: "Give somebody a piece of your mind",
+    banglaMeaning: "রেগে গিয়ে কড়া কথা বলা",
+    englishMeaning: "To scold someone angrily and directly",
+    sentenceEn: "She gave the driver a piece of her mind for being reckless.",
+    sentenceBn: "বেপরোয়া গাড়ি চালানোর জন্য সে চালকের সাথে রাগে কড়া কথা বলল।",
+    origin: "নিজের মনের ভেতরের ক্ষোভ সরাসরি প্রকাশ করার চিত্র থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Enough is enough",
+    banglaMeaning: "যথেষ্ট হয়েছে",
+    englishMeaning: "A situation must not continue any further",
+    sentenceEn: "Enough is enough — we need to take action now.",
+    sentenceBn: "যথেষ্ট হয়েছে, এখন আমাদের ব্যবস্থা নিতে হবে।",
+    origin: "সহনশীলতার সীমা পার হয়ে যাওয়ার প্রতিবাদ বোঝাতে জোরালো অভিব্যক্তি হিসেবে প্রচলিত।"
+  },
+  {
+    idiom: "Once in a blue moon",
+    banglaMeaning: "কালেভদ্রে",
+    englishMeaning: "Very rarely",
+    sentenceEn: "We only meet once in a blue moon these days.",
+    sentenceBn: "আজকাল আমাদের দেখা কালেভদ্রে হয়।",
+    origin: "একই মাসে দুইটি পূর্ণিমা হলে দ্বিতীয়টিকে 'ব্লু মুন' বলা হয়, যা কয়েক বছরে একবার ঘটে — এই বিরলতা থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Take the bull by the horns",
+    banglaMeaning: "কঠিন পরিস্থিতি সাহসের সাথে মোকাবিলা করা",
+    englishMeaning: "To confront a difficult situation directly and bravely",
+    sentenceEn: "She decided to take the bull by the horns and fix the problem herself.",
+    sentenceBn: "সে সাহস করে নিজেই সমস্যাটি সমাধান করার সিদ্ধান্ত নিল।",
+    origin: "ষাঁড়ের শিং সরাসরি ধরে নিয়ন্ত্রণ করা যেমন সাহসের কাজ, তেমনি কঠিন পরিস্থিতির সরাসরি মোকাবিলা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "A stitch in time saves nine",
+    banglaMeaning: "সময়মতো সামান্য প্রচেষ্টা পরবর্তী বড় সমস্যা এড়ায়",
+    englishMeaning: "Timely small action prevents bigger problems later",
+    sentenceEn: "Fix the small leak now — a stitch in time saves nine.",
+    sentenceBn: "এখনই ছোট ফুটোটা ঠিক করো, সময়ের এক ফোঁড় অসময়ের দশ ফোঁড়।",
+    origin: "কাপড়ে সময়মতো একটি সেলাই (stitch) দিলে পরে বড় ছেঁড়া ঠেকানো যায় — এই সেলাইয়ের রূপক থেকে প্রবাদটি এসেছে।"
+  },
+  {
+    idiom: "To do away with",
+    banglaMeaning: "বাতিল করা",
+    englishMeaning: "To abolish or get rid of",
+    sentenceEn: "The new policy did away with unnecessary paperwork.",
+    sentenceBn: "নতুন নীতিমালা অপ্রয়োজনীয় কাগজপত্র বাতিল করে দিল।",
+    origin: "কোনো কিছু সম্পূর্ণভাবে সরিয়ে ফেলা বোঝাতে সাধারণ ব্যবহারিক অভিব্যক্তি।"
+  },
+  {
+    idiom: "Maiden speech",
+    banglaMeaning: "প্রথম বক্তৃতা",
+    englishMeaning: "A person's first public speech, especially in parliament",
+    sentenceEn: "The new MP delivered his maiden speech yesterday.",
+    sentenceBn: "নতুন সংসদ সদস্য গতকাল তার প্রথম বক্তৃতা দিলেন।",
+    origin: "'Maiden' শব্দের অর্থ কুমারী বা নতুন, তাই প্রথমবারের মতো কোনো কিছু বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Call to mind",
+    banglaMeaning: "মনে করা",
+    englishMeaning: "To remember or recall",
+    sentenceEn: "This song calls to mind my childhood days.",
+    sentenceBn: "এই গানটি আমার ছেলেবেলার কথা মনে করিয়ে দেয়।",
+    origin: "কোনো কিছু স্মৃতিতে ফিরিয়ে আনা বোঝাতে সাধারণ ব্যবহারিক অভিব্যক্তি।"
+  },
+  {
+    idiom: "Take into account",
+    banglaMeaning: "বিবেচনা করা",
+    englishMeaning: "To consider something when making a decision",
+    sentenceEn: "We must take his experience into account before hiring.",
+    sentenceBn: "নিয়োগের আগে আমাদের তার অভিজ্ঞতা বিবেচনা করতে হবে।",
+    origin: "হিসাবের (account) মধ্যে কোনো বিষয় অন্তর্ভুক্ত করার রূপক থেকে বিবেচনা করা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Put up with",
+    banglaMeaning: "সহ্য করা",
+    englishMeaning: "To tolerate something unpleasant",
+    sentenceEn: "I can't put up with this noise any longer.",
+    sentenceBn: "আমি আর এই শব্দ সহ্য করতে পারছি না।",
+    origin: "অপ্রীতিকর কিছু মেনে নেওয়া বা ধৈর্য ধরা বোঝাতে সাধারণ ব্যবহারিক অভিব্যক্তি।"
+  },
+  {
+    idiom: "Get one's ideas across",
+    banglaMeaning: "নিজের ধারণা অন্যকে বোঝানো",
+    englishMeaning: "To successfully communicate one's thoughts to others",
+    sentenceEn: "The teacher struggled to get her ideas across to the class.",
+    sentenceBn: "শিক্ষিকা ক্লাসকে নিজের ধারণা বোঝাতে হিমশিম খাচ্ছিলেন।",
+    origin: "কোনো ভাব বা তথ্য একজনের কাছ থেকে অন্যজনের কাছে সফলভাবে পৌঁছে দেওয়া বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "By fits and starts (again)",
+    banglaMeaning: "অনিয়মিতভাবে",
+    englishMeaning: "Irregularly, in short bursts",
+    sentenceEn: "The project progressed by fits and starts.",
+    sentenceBn: "প্রকল্পটি অনিয়মিতভাবে এগোচ্ছিল।",
+    origin: "কাজ কখনো হঠাৎ শুরু হয় আবার হঠাৎ থেমে যায় — এই অসংগতি থেকে অনিয়মিততা বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "End in smoke",
+    banglaMeaning: "কোনো ফল না পাওয়া",
+    englishMeaning: "To come to nothing; to fail completely",
+    sentenceEn: "All his plans ended in smoke.",
+    sentenceBn: "তার সব পরিকল্পনা ব্যর্থতায় পর্যবসিত হলো।",
+    origin: "ধোঁয়া যেমন বাতাসে মিলিয়ে যায় ও কিছু অবশিষ্ট থাকে না, তেমনি কোনো প্রচেষ্টার নিষ্ফল পরিণতি বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Put the cart before the horse",
+    banglaMeaning: "উল্টো কাজ করা",
+    englishMeaning: "To do things in the wrong order",
+    sentenceEn: "Planning the party before confirming the venue is putting the cart before the horse.",
+    sentenceBn: "স্থান নিশ্চিত না করেই পার্টির পরিকল্পনা করা উল্টো কাজ করার শামিল।",
+    origin: "গাড়িকে ঘোড়ার সামনে রাখলে যেমন তা চলতে পারে না, তেমনি কাজের সঠিক ক্রম উল্টে ফেলা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Read between the lines",
+    banglaMeaning: "গূঢ় অর্থ বোঝা",
+    englishMeaning: "To understand a hidden meaning beyond the literal words",
+    sentenceEn: "You need to read between the lines to understand his real intention.",
+    sentenceBn: "তার আসল উদ্দেশ্য বুঝতে হলে গূঢ় অর্থ বুঝতে হবে।",
+    origin: "গোপন বার্তা পাঠাতে অতীতে দুই লাইনের মাঝে অদৃশ্য কালিতে লেখা হতো, সেখান থেকে অন্তর্নিহিত অর্থ বোঝা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Bolt from the blue",
+    banglaMeaning: "অপ্রত্যাশিত বিপদ",
+    englishMeaning: "A sudden, unexpected event, usually bad",
+    sentenceEn: "The news of his resignation came like a bolt from the blue.",
+    sentenceBn: "তার পদত্যাগের খবরটি একেবারে অপ্রত্যাশিতভাবে এলো।",
+    origin: "নীল আকাশ থেকে হঠাৎ বজ্রপাত (bolt) হওয়ার চিত্র থেকে সম্পূর্ণ অপ্রত্যাশিত ঘটনা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Through thick and thin",
+    banglaMeaning: "সব অবস্থায়",
+    englishMeaning: "In every circumstance, good or bad",
+    sentenceEn: "They stayed friends through thick and thin.",
+    sentenceBn: "তারা সব অবস্থাতেই বন্ধুত্ব বজায় রেখেছিল।",
+    origin: "ঘন (thick) ও পাতলা (thin) জঙ্গলের মধ্য দিয়ে যাত্রার কষ্টকর চিত্র থেকে সব পরিস্থিতিতে টিকে থাকা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "White elephant",
+    banglaMeaning: "ব্যয়বহুল কিন্তু অপ্রয়োজনীয় বস্তু",
+    englishMeaning: "Something costly to maintain but of little use",
+    sentenceEn: "The unused stadium became a white elephant for the city.",
+    sentenceBn: "অব্যবহৃত স্টেডিয়ামটি শহরের জন্য এক ব্যয়বহুল বোঝায় পরিণত হলো।",
+    origin: "থাইল্যান্ডে সাদা হাতিকে পবিত্র মনে করা হতো এবং তা বিক্রি করা যেত না, ফলে মালিককে বিনা প্রয়োজনে প্রচুর খরচ বহন করতে হতো — সেখান থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Out and out",
+    banglaMeaning: "পুরোপুরি",
+    englishMeaning: "Completely; thoroughly",
+    sentenceEn: "He is an out and out professional.",
+    sentenceBn: "সে পুরোপুরি একজন পেশাদার মানুষ।",
+    origin: "সম্পূর্ণতা জোর দিয়ে বোঝাতে পুনরাবৃত্তিমূলক ব্যবহারিক অভিব্যক্তি হিসেবে প্রচলিত।"
+  },
+  {
+    idiom: "Lingua franca",
+    banglaMeaning: "সাধারণ ভাষা",
+    englishMeaning: "A common language used between speakers of different native languages",
+    sentenceEn: "English serves as the lingua franca of international business.",
+    sentenceBn: "আন্তর্জাতিক ব্যবসায় ইংরেজি সাধারণ ভাষা হিসেবে ব্যবহৃত হয়।",
+    origin: "ভূমধ্যসাগরীয় বাণিজ্যে ব্যবহৃত মিশ্র ইতালীয়-ভিত্তিক একটি ভাষার নাম থেকে সাধারণ যোগাযোগের ভাষা বোঝাতে শব্দগুচ্ছটি এসেছে।"
+  },
+  {
+    idiom: "Swan song",
+    banglaMeaning: "শেষ কর্ম",
+    englishMeaning: "A final performance or act before retirement or death",
+    sentenceEn: "This novel turned out to be the writer's swan song.",
+    sentenceBn: "উপন্যাসটি লেখকের শেষ রচনা হিসেবে প্রমাণিত হলো।",
+    origin: "প্রাচীন বিশ্বাস ছিল রাজহংস মৃত্যুর ঠিক আগে সবচেয়ে সুন্দর গান গায়, সেখান থেকে কারও শেষ কীর্তি বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Dilly-dally",
+    banglaMeaning: "সময় নষ্ট করা",
+    englishMeaning: "To waste time through indecision or delay",
+    sentenceEn: "Stop dilly-dallying and make a decision.",
+    sentenceBn: "সময় নষ্ট না করে সিদ্ধান্ত নাও।",
+    origin: "দ্বিধাগ্রস্ত অবস্থায় ইতস্তত করার শব্দধ্বনিমূলক (rhyming) অভিব্যক্তি থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "All in",
+    banglaMeaning: "অত্যন্ত ক্লান্ত",
+    englishMeaning: "Completely exhausted",
+    sentenceEn: "After the long trek, we were all in.",
+    sentenceBn: "দীর্ঘ পথ হাঁটার পর আমরা সবাই ক্লান্ত হয়ে পড়েছিলাম।",
+    origin: "শক্তি সম্পূর্ণভাবে (all) নিঃশেষ হয়ে যাওয়ার অর্থ থেকে চরম ক্লান্তি বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Blue chips",
+    banglaMeaning: "নিরাপদ বিনিয়োগ",
+    englishMeaning: "Stocks of financially strong, reliable companies",
+    sentenceEn: "Investors prefer blue chips during uncertain times.",
+    sentenceBn: "অনিশ্চয়তার সময় বিনিয়োগকারীরা নিরাপদ শেয়ার পছন্দ করেন।",
+    origin: "পোকার খেলায় নীল রঙের চিপসের (chip) মূল্য সবচেয়ে বেশি হতো, সেখান থেকে সবচেয়ে নির্ভরযোগ্য শেয়ার বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Bull market",
+    banglaMeaning: "ঊর্ধ্বমুখী বাজার",
+    englishMeaning: "A market condition where prices are rising",
+    sentenceEn: "Stock prices soared during the bull market.",
+    sentenceBn: "ঊর্ধ্বমুখী বাজারে শেয়ারের দাম আকাশচুম্বী হলো।",
+    origin: "ষাঁড় আক্রমণ করার সময় শিং দিয়ে উপরের দিকে গুঁতো মারে, যা ঊর্ধ্বমুখী মূল্যের প্রতীক হিসেবে শেয়ারবাজারে ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Turned over a new leaf",
+    banglaMeaning: "নতুন জীবন শুরু করা",
+    englishMeaning: "To start behaving in a better, new way",
+    sentenceEn: "After the accident, he turned over a new leaf.",
+    sentenceBn: "দুর্ঘটনার পর সে নতুনভাবে জীবন শুরু করল।",
+    origin: "বইয়ের পাতা (leaf) উল্টে নতুন অধ্যায় শুরু করার চিত্র থেকে নতুন জীবন শুরু করা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "In cold blood",
+    banglaMeaning: "সুচিন্তিতভাবে ও নির্মমভাবে",
+    englishMeaning: "Deliberately and without emotion, especially of a crime",
+    sentenceEn: "The crime was committed in cold blood.",
+    sentenceBn: "অপরাধটি সম্পূর্ণ সুপরিকল্পিত ও নির্মমভাবে সংঘটিত হয়েছিল।",
+    origin: "উত্তেজনা বা আবেগহীন 'ঠান্ডা' মানসিক অবস্থা থেকে সংঘটিত নির্মম কাজ বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Boils down to",
+    banglaMeaning: "মূল বিষয়ে পৌঁছানো",
+    englishMeaning: "To be summarized as the essential point",
+    sentenceEn: "The whole argument boils down to a lack of trust.",
+    sentenceBn: "পুরো বিতর্কটির মূল কথা হলো বিশ্বাসের অভাব।",
+    origin: "তরল ফুটিয়ে ঘনীভূত করার (boil down) রান্নার প্রক্রিয়া থেকে জটিল বিষয়কে সরলীকরণ বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Time is up",
+    banglaMeaning: "সময় শেষ",
+    englishMeaning: "The allotted time has ended",
+    sentenceEn: "Put your pens down, time is up.",
+    sentenceBn: "কলম রাখো, সময় শেষ।",
+    origin: "নির্ধারিত সময়সীমা পার হয়ে যাওয়া বোঝাতে সাধারণ ব্যবহারিক অভিব্যক্তি।"
+  },
+  {
+    idiom: "Break the ice",
+    banglaMeaning: "কথোপকথন শুরু করা",
+    englishMeaning: "To relieve tension and start conversation in an awkward situation",
+    sentenceEn: "He told a joke to break the ice at the meeting.",
+    sentenceBn: "মিটিংয়ের পরিবেশ সহজ করতে সে একটা রসিকতা বলল।",
+    origin: "প্রাচীনকালে বরফাবৃত নদীপথে ছোট 'আইসব্রেকার' জাহাজ পথের বরফ ভেঙে বড় জাহাজের জন্য পথ তৈরি করত — সেখান থেকে কথোপকথনের জড়তা ভাঙা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Brain child",
+    banglaMeaning: "মৌলিক চিন্তা বা উদ্ভাবন",
+    englishMeaning: "An original idea or invention created by someone",
+    sentenceEn: "The new app was the brain child of a young engineer.",
+    sentenceBn: "নতুন অ্যাপটি ছিল এক তরুণ প্রকৌশলীর মৌলিক উদ্ভাবন।",
+    origin: "মস্তিষ্ক (brain) থেকে সৃষ্ট সন্তানের (child) মতো ধারণা — এই রূপক থেকে মৌলিক চিন্তা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Penny wise pound foolish",
+    banglaMeaning: "সামান্য বিষয়ে সাশ্রয়ী কিন্তু বড় বিষয়ে অপচয়ী",
+    englishMeaning: "Careful with small amounts of money but wasteful with large amounts",
+    sentenceEn: "Skipping maintenance to save money is penny wise pound foolish.",
+    sentenceBn: "রক্ষণাবেক্ষণ এড়িয়ে টাকা বাঁচানো আসলে সামান্যের জন্য বড় ক্ষতি ডেকে আনা।",
+    origin: "ব্রিটিশ মুদ্রায় পেনি ছোট ও পাউন্ড বড় মূল্যের একক — ছোট বিষয়ে হিসাবি কিন্তু বড় বিষয়ে অসতর্কতা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Pass away",
+    banglaMeaning: "মারা যাওয়া",
+    englishMeaning: "To die (a polite expression)",
+    sentenceEn: "Her grandfather passed away last winter.",
+    sentenceBn: "তার দাদা গত শীতে মারা যান।",
+    origin: "মৃত্যুকে ভদ্রভাবে প্রকাশ করার জন্য প্রচলিত সৌজন্যমূলক অভিব্যক্তি।"
+  },
+  {
+    idiom: "Pass for",
+    banglaMeaning: "গণ্য হওয়া",
+    englishMeaning: "To be accepted or regarded as something",
+    sentenceEn: "He could easily pass for a native speaker.",
+    sentenceBn: "তাকে সহজেই একজন স্থানীয় ভাষাভাষী বলে মনে হতে পারে।",
+    origin: "বাহ্যিক দিক থেকে অন্য কিছু হিসেবে গৃহীত হওয়া বোঝাতে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Let things slide",
+    banglaMeaning: "উপেক্ষা করা",
+    englishMeaning: "To neglect a situation and allow it to worsen",
+    sentenceEn: "If we let things slide now, we'll regret it later.",
+    sentenceBn: "এখন বিষয়টি উপেক্ষা করলে পরে আমাদের আফসোস করতে হবে।",
+    origin: "কোনো কিছুকে নিয়ন্ত্রণ ছাড়া নিচের দিকে গড়িয়ে যেতে দেওয়ার চিত্র থেকে অবহেলা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "De facto",
+    banglaMeaning: "কার্যত",
+    englishMeaning: "In practice, though not officially recognized",
+    sentenceEn: "He has been the de facto leader of the group for years.",
+    sentenceBn: "সে বছরের পর বছর ধরে দলটির কার্যত নেতা হয়ে আছে।",
+    origin: "ল্যাটিন শব্দগুচ্ছ, যার অর্থ 'বাস্তবে' — আনুষ্ঠানিক স্বীকৃতি ছাড়াই বাস্তবিক অবস্থা বোঝাতে ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Burning question",
+    banglaMeaning: "গুরুত্বপূর্ণ ও জরুরি প্রশ্ন",
+    englishMeaning: "An urgent and important issue",
+    sentenceEn: "Climate change remains the burning question of our time.",
+    sentenceBn: "জলবায়ু পরিবর্তন আমাদের সময়ের সবচেয়ে গুরুত্বপূর্ণ প্রশ্ন হয়ে আছে।",
+    origin: "আগুনের মতো তীব্র ও জরুরি (burning) গুরুত্ব বোঝাতে রূপক হিসেবে বাগধারাটি ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Man of straw",
+    banglaMeaning: "নিস্তেজ ও দুর্বল মানুষ",
+    englishMeaning: "A weak person with no real substance or power",
+    sentenceEn: "His opponent was just a man of straw with no real plan.",
+    sentenceBn: "তার প্রতিপক্ষ ছিল প্রকৃত পরিকল্পনাহীন এক নিস্তেজ মানুষ।",
+    origin: "খড় দিয়ে তৈরি পুতুল যেমন বাহ্যিকভাবে মানুষের আকৃতি নিলেও ভেতরে শক্তি বা প্রাণ থাকে না, তেমনি দুর্বল ব্যক্তি বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "At a loss",
+    banglaMeaning: "হতভম্ব / দিশেহারা",
+    englishMeaning: "Confused and unsure what to do",
+    sentenceEn: "He was at a loss for words after the surprise.",
+    sentenceBn: "চমকে গিয়ে সে কথা হারিয়ে ফেলল।",
+    origin: "ক্ষতি বা দিশা হারানোর (loss) অনুভূতি থেকে বিভ্রান্তি বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Cry wolf",
+    banglaMeaning: "মিথ্যা বিপদের চিৎকার করা",
+    englishMeaning: "To raise a false alarm",
+    sentenceEn: "After crying wolf too many times, no one believed him.",
+    sentenceBn: "বারবার মিথ্যা বিপদের চিৎকার করার ফলে কেউ আর তাকে বিশ্বাস করল না।",
+    origin: "ঈশপের গল্পের রাখাল বালক বারবার মিথ্যা বলে 'নেকড়ে এসেছে' বলে চিৎকার করত, শেষে সত্যিকারের বিপদে কেউ তার কথা বিশ্বাস করেনি।"
+  },
+  {
+    idiom: "Status quo",
+    banglaMeaning: "বর্তমান অবস্থা",
+    englishMeaning: "The existing state of affairs",
+    sentenceEn: "The committee decided to maintain the status quo.",
+    sentenceBn: "কমিটি বর্তমান অবস্থা বজায় রাখার সিদ্ধান্ত নিল।",
+    origin: "ল্যাটিন শব্দগুচ্ছ, যার আক্ষরিক অর্থ 'যে অবস্থায় আছে' — বর্তমান পরিস্থিতি বোঝাতে ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "At home with",
+    banglaMeaning: "পরিচিত / স্বাচ্ছন্দ্যপূর্ণ",
+    englishMeaning: "Familiar and comfortable with something",
+    sentenceEn: "She is quite at home with modern technology.",
+    sentenceBn: "সে আধুনিক প্রযুক্তির সঙ্গে বেশ পরিচিত।",
+    origin: "নিজের ঘরে যেমন মানুষ স্বচ্ছন্দ বোধ করে, তেমনি কোনো বিষয়ে দক্ষতা বা পরিচিতি বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Keep the wolf away from the door",
+    banglaMeaning: "অভাব দূর করা",
+    englishMeaning: "To have just enough money to avoid poverty or starvation",
+    sentenceEn: "He took a second job just to keep the wolf away from the door.",
+    sentenceBn: "নিছক অভাব দূর করতেই সে দ্বিতীয় চাকরি নিল।",
+    origin: "ক্ষুধার্ত নেকড়ে দরজায় এসে বিপদ ডেকে আনার প্রতীকী চিত্র থেকে দারিদ্র্য বা ক্ষুধা প্রতিরোধ বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Apprise",
+    banglaMeaning: "অবহিত করা",
+    englishMeaning: "To inform someone of something",
+    sentenceEn: "Please apprise me of any changes in the schedule.",
+    sentenceBn: "সময়সূচিতে কোনো পরিবর্তন হলে আমাকে অবহিত করবেন।",
+    origin: "ফরাসি 'apprendre' (শেখানো/জানানো) থেকে শব্দটি এসেছে, যা কাউকে তথ্য জানানো বোঝায়।"
+  },
+  {
+    idiom: "See eye to eye with",
+    banglaMeaning: "একমত হওয়া",
+    englishMeaning: "To be in agreement with someone",
+    sentenceEn: "The two leaders finally saw eye to eye on the treaty.",
+    sentenceBn: "দুই নেতা অবশেষে চুক্তির বিষয়ে একমত হলেন।",
+    origin: "দুজনের সরাসরি চোখে চোখ রাখার চিত্র থেকে সম্পূর্ণ একমত হওয়া বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Fall into line",
+    banglaMeaning: "একমত হওয়া / নিয়ম মেনে চলা",
+    englishMeaning: "To agree to conform with a rule or decision",
+    sentenceEn: "Eventually, all the members fell into line with the new policy.",
+    sentenceBn: "শেষমেশ সব সদস্য নতুন নীতির সাথে একমত হলো।",
+    origin: "সৈন্যদের সারিবদ্ধভাবে দাঁড়ানোর (fall into line) সামরিক চিত্র থেকে নিয়ম মেনে চলা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Caught sight of",
+    banglaMeaning: "চোখে পড়া",
+    englishMeaning: "To suddenly notice or see something",
+    sentenceEn: "I caught sight of an old friend in the crowd.",
+    sentenceBn: "ভিড়ের মধ্যে আমি এক পুরনো বন্ধুকে দেখতে পেলাম।",
+    origin: "হঠাৎ দৃষ্টিতে (sight) কিছু ধরা পড়ার চিত্র থেকে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Skim",
+    banglaMeaning: "দ্রুত পড়া",
+    englishMeaning: "To read quickly without focusing on details",
+    sentenceEn: "I only had time to skim the report before the meeting.",
+    sentenceBn: "মিটিংয়ের আগে প্রতিবেদনটি শুধু দ্রুত চোখ বুলানোর সময় পেয়েছিলাম।",
+    origin: "তরলের উপরের পাতলা স্তর দ্রুত সরিয়ে নেওয়ার (skim) চিত্র থেকে দ্রুত ও ভাসাভাসাভাবে পড়া বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Down to earth",
+    banglaMeaning: "বাস্তববাদী ও সাদাসিধে",
+    englishMeaning: "Practical and sensible; without pretension",
+    sentenceEn: "Despite her fame, she remains very down to earth.",
+    sentenceBn: "খ্যাতি সত্ত্বেও সে খুবই সাদাসিধে ও বাস্তববাদী রয়ে গেছে।",
+    origin: "আকাশচুম্বী কল্পনার বিপরীতে মাটির (earth) কাছাকাছি থাকার রূপক থেকে বাস্তববাদী মানসিকতা বোঝাতে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Nota bene",
+    banglaMeaning: "বিশেষ দ্রষ্টব্য",
+    englishMeaning: "Note well; used to draw attention to something important",
+    sentenceEn: "Nota bene: the deadline has been moved to Friday.",
+    sentenceBn: "বিশেষ দ্রষ্টব্য: শেষ তারিখ শুক্রবারে পরিবর্তন করা হয়েছে।",
+    origin: "ল্যাটিন শব্দগুচ্ছ, যার আক্ষরিক অর্থ 'ভালোভাবে লক্ষ করো' — গুরুত্বপূর্ণ তথ্যের প্রতি মনোযোগ আকর্ষণ করতে ব্যবহৃত হয়।"
+  },
+  {
+    idiom: "Piece of cake",
+    banglaMeaning: "অত্যন্ত সহজ কোনো কাজ।",
+    englishMeaning: "Something very easy to do.",
+    sentenceEn: "The exam was a piece of cake for her.",
+    sentenceBn: "পরীক্ষাটি তার জন্য একেবারে সহজ ছিল।",
+    origin: "১৯ শতকের আমেরিকায় প্রতিযোগিতায় সবচেয়ে ভালো নাচের জন্য পুরস্কার হিসেবে কেক দেওয়া হতো, আর কেক খাওয়া যেমন সহজ ও আনন্দদায়ক, তেমনি সহজ কাজকে বোঝাতে অভিব্যক্তিটি ব্যবহৃত হতে থাকে।"
+  },
+  {
+    idiom: "Under the weather",
+    banglaMeaning: "শরীর খারাপ লাগা বা অসুস্থ বোধ করা।",
+    englishMeaning: "Feeling slightly ill.",
+    sentenceEn: "I'm feeling a bit under the weather today.",
+    sentenceBn: "আজ আমার শরীরটা একটু খারাপ লাগছে।",
+    origin: "নাবিকদের মধ্যে প্রচলিত একটি ধারণা থেকে এই বাগধারা এসেছে — সমুদ্রে ঝড়ের সময় অসুস্থ নাবিকদের জাহাজের নিচের ডেকে পাঠানো হতো, অর্থাৎ তারা আক্ষরিক অর্থেই 'আবহাওয়ার নিচে' অবস্থান করত।"
+  },
+  {
+    idiom: "Bite the bullet",
+    banglaMeaning: "কষ্টকর বা অপ্রীতিকর পরিস্থিতি সাহসের সঙ্গে মেনে নেওয়া।",
+    englishMeaning: "To face a difficult or unpleasant situation with courage.",
+    sentenceEn: "She decided to bite the bullet and confront her boss.",
+    sentenceBn: "সে সাহস করে তার বসের মুখোমুখি হওয়ার সিদ্ধান্ত নিল।",
+    origin: "অ্যানেস্থেসিয়া আবিষ্কারের আগে যুদ্ধক্ষেত্রে আহত সৈনিকদের অস্ত্রোপচারের সময় ব্যথা সহ্য করার জন্য দাঁতে বুলেট কামড়ে ধরতে দেওয়া হতো।"
+  },
+  {
+    idiom: "Hit the nail on the head",
+    banglaMeaning: "একদম সঠিক কথা বা মন্তব্য করা।",
+    englishMeaning: "To be precisely correct.",
+    sentenceEn: "You hit the nail on the head with that explanation.",
+    sentenceBn: "তুমি ব্যাখ্যাটা একদম সঠিকভাবে দিয়েছ।",
+    origin: "ছুতোরের কাজে পেরেকের মাথায় ঠিকমতো আঘাত করলেই তা মসৃণভাবে গেঁথে যায় — এই নিখুঁত নিশানা থেকেই 'সঠিক কথা বলা' অর্থে বাগধারাটি এসেছে।"
+  },
+  {
+    idiom: "Cost an arm and a leg",
+    banglaMeaning: "অত্যন্ত ব্যয়বহুল হওয়া।",
+    englishMeaning: "To be very expensive.",
+    sentenceEn: "That designer bag cost an arm and a leg.",
+    sentenceBn: "ওই ডিজাইনার ব্যাগটার দাম আকাশছোঁয়া।",
+    origin: "জনপ্রিয় ধারণা অনুযায়ী এটি বোঝায় যে কোনো কিছুর মূল্য এতই বেশি যে তা পাওয়ার জন্য যেন নিজের হাত-পায়ের মতো মূল্যবান অঙ্গ বিসর্জন দিতে হবে।"
+  },
+  {
+    idiom: "Burn the midnight oil",
+    banglaMeaning: "গভীর রাত পর্যন্ত পরিশ্রম বা পড়াশোনা করা।",
+    englishMeaning: "To work or study late into the night.",
+    sentenceEn: "Students often burn the midnight oil before exams.",
+    sentenceBn: "পরীক্ষার আগে শিক্ষার্থীরা প্রায়ই গভীর রাত পর্যন্ত পড়াশোনা করে।",
+    origin: "বিদ্যুৎ আবিষ্কারের আগে মানুষ তেলের বাতি জ্বালিয়ে রাতে কাজ করত। রাত গভীর হওয়া পর্যন্ত বাতির তেল পুড়তে থাকত বলেই এই বাগধারা প্রচলিত হয়।"
+  },
+  {
+    idiom: "A blessing in disguise",
+    banglaMeaning: "প্রথমে খারাপ মনে হলেও পরে যা কল্যাণকর প্রমাণিত হয়।",
+    englishMeaning: "Something that seems bad at first but turns out to be beneficial.",
+    sentenceEn: "Losing that job was a blessing in disguise.",
+    sentenceBn: "চাকরিটা হারানো আসলে ছদ্মবেশী আশীর্বাদ হয়ে দাঁড়িয়েছিল।",
+    origin: "ধর্মীয় সাহিত্যে এই ধারণা থেকে বাগধারাটি এসেছে যে, আশীর্বাদ কখনো কখনো কষ্ট বা দুর্ভাগ্যের ছদ্মবেশে আসে, যার প্রকৃত মঙ্গল পরে বোঝা যায়।"
+  },
+  {
+    idiom: "Add fuel to the fire",
+    banglaMeaning: "কোনো খারাপ পরিস্থিতি বা রাগ আরও বাড়িয়ে দেওয়া।",
+    englishMeaning: "To make a bad situation even worse.",
+    sentenceEn: "His sarcastic comment only added fuel to the fire.",
+    sentenceBn: "তার বিদ্রূপাত্মক মন্তব্য পরিস্থিতিকে আরও উত্তপ্ত করে তুলল।",
+    origin: "আগুনে জ্বালানি যোগ করলে যেমন শিখা আরও বেড়ে যায়, তেমনি উত্তেজনাপূর্ণ পরিস্থিতিতে নতুন কিছু যোগ করলে তা আরও প্রকট হয়।"
+  },
+  {
+    idiom: "Get cold feet",
+    banglaMeaning: "শেষ মুহূর্তে ভয় পেয়ে পিছিয়ে যাওয়া।",
+    englishMeaning: "To suddenly become too frightened to do something planned.",
+    sentenceEn: "He got cold feet right before the wedding.",
+    sentenceBn: "বিয়ের ঠিক আগমুহূর্তে সে ভয়ে পিছিয়ে গেল।",
+    origin: "প্রচলিত ধারণা অনুযায়ী যুদ্ধক্ষেত্রে ঠান্ডায় সৈনিকদের পা অবশ হয়ে গেলে তারা এগোতে দ্বিধা করত — এই শারীরিক অসাড়তা থেকেই মানসিক ভয় বোঝাতে বাগধারাটি গড়ে ওঠে।"
+  },
+  {
+    idiom: "Kill two birds with one stone",
+    banglaMeaning: "একই কাজে দুইটি উদ্দেশ্য সাধন করা।",
+    englishMeaning: "To achieve two goals with a single action.",
+    sentenceEn: "By walking to work, I kill two birds with one stone.",
+    sentenceBn: "হেঁটে অফিসে গিয়ে আমি একসাথে দুইটি কাজ সারি।",
+    origin: "শিকারে একটি মাত্র ঢিল ছুঁড়ে দুইটি পাখি একসঙ্গে শিকার করার দুর্লভ দক্ষতার রূপক থেকে এই বাগধারার উৎপত্তি।"
+  },
+  {
+    idiom: "The ball is in your court",
+    banglaMeaning: "এখন সিদ্ধান্ত নেওয়ার দায়িত্ব তোমার।",
+    englishMeaning: "It is up to you to make the next decision.",
+    sentenceEn: "I've made my offer — now the ball is in your court.",
+    sentenceBn: "আমি আমার প্রস্তাব দিয়েছি, এখন সিদ্ধান্ত নেওয়ার পালা তোমার।",
+    origin: "টেনিসের মতো কোর্ট-ভিত্তিক খেলা থেকে এই বাগধারার উদ্ভব, যেখানে বল প্রতিপক্ষের কোর্টে গেলে পরবর্তী চাল দেওয়ার দায়িত্ব তারই থাকে।"
+  },
+];
+
+// ---------- Sound engine ----------
+let audioCtx = null;
+function getAudioCtx(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(AC) audioCtx = new AC();
+  }
+  if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+function beep(freq, duration, type, vol, delay, glideTo){
+  if(!appSettings.sound) return;
+  const ctx = getAudioCtx();
+  if(!ctx) return;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type || 'sine';
+  osc.frequency.value = freq;
+  const startTime = ctx.currentTime + (delay || 0);
+  if(glideTo) osc.frequency.exponentialRampToValueAtTime(glideTo, startTime + duration);
+  gain.gain.setValueAtTime(vol || 0.2, startTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(startTime);
+  osc.stop(startTime + duration + 0.03);
+}
+function playSlideSound(){ beep(500, 0.09, 'triangle', 0.10, 0, 380); }
+function playCorrectSound(){
+  beep(660, 0.11, 'sine', 0.22, 0);
+  beep(990, 0.16, 'sine', 0.22, 0.11);
+}
+function playWrongSound(){
+  beep(300, 0.22, 'sawtooth', 0.16, 0, 160);
+}
+
+// ---------- App Settings (sound / font size / colors) ----------
+const SETTINGS_KEY = 'idiomApp_settings_v1';
+const DEFAULT_SETTINGS = { sound: true, fontScale: 1, cardBg: '#ffffff', cardText: '#000000' };
+
+function loadSettings(){
+  try{
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    if(raw) return Object.assign({}, DEFAULT_SETTINGS, JSON.parse(raw));
+  }catch(e){}
+  return Object.assign({}, DEFAULT_SETTINGS);
+}
+function saveSettings(){
+  try{ localStorage.setItem(SETTINGS_KEY, JSON.stringify(appSettings)); }catch(e){}
+}
+function applySettings(){
+  document.documentElement.style.setProperty('--font-scale', appSettings.fontScale);
+  document.documentElement.style.setProperty('--card-bg', appSettings.cardBg);
+  document.documentElement.style.setProperty('--card-text', appSettings.cardText);
+}
+
+let appSettings = loadSettings();
+applySettings();
+
+const settingsBtn = document.getElementById('settingsBtn');
+const settingsOverlay = document.getElementById('settingsOverlay');
+const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+const soundToggle = document.getElementById('soundToggle');
+const fontScaleSlider = document.getElementById('fontScaleSlider');
+const fontScaleLabel = document.getElementById('fontScaleLabel');
+const cardTextColor = document.getElementById('cardTextColor');
+const cardBgColor = document.getElementById('cardBgColor');
+const resetSettingsBtn = document.getElementById('resetSettingsBtn');
+
+function syncSettingsUI(){
+  soundToggle.checked = appSettings.sound;
+  fontScaleSlider.value = appSettings.fontScale;
+  fontScaleLabel.textContent = Math.round(appSettings.fontScale * 100) + '%';
+  cardTextColor.value = appSettings.cardText;
+  cardBgColor.value = appSettings.cardBg;
+}
+
+settingsBtn.addEventListener('click', ()=>{
+  syncSettingsUI();
+  settingsOverlay.classList.add('open');
+});
+closeSettingsBtn.addEventListener('click', ()=> settingsOverlay.classList.remove('open'));
+settingsOverlay.addEventListener('click', (e)=>{ if(e.target === settingsOverlay) settingsOverlay.classList.remove('open'); });
+
+soundToggle.addEventListener('change', ()=>{
+  appSettings.sound = soundToggle.checked;
+  saveSettings();
+  if(appSettings.sound) playSlideSound();
+});
+fontScaleSlider.addEventListener('input', ()=>{
+  appSettings.fontScale = parseFloat(fontScaleSlider.value);
+  fontScaleLabel.textContent = Math.round(appSettings.fontScale * 100) + '%';
+  applySettings();
+  saveSettings();
+});
+cardTextColor.addEventListener('input', ()=>{
+  appSettings.cardText = cardTextColor.value;
+  applySettings();
+  saveSettings();
+});
+cardBgColor.addEventListener('input', ()=>{
+  appSettings.cardBg = cardBgColor.value;
+  applySettings();
+  saveSettings();
+});
+resetSettingsBtn.addEventListener('click', ()=>{
+  appSettings = Object.assign({}, DEFAULT_SETTINGS);
+  applySettings();
+  saveSettings();
+  syncSettingsUI();
+});
+
+let order = idioms.map((_,i)=>i);
+let pos = 0;
+let starred = new Set();
+
+const card = document.getElementById('card');
+const idiomText = document.getElementById('idiomText');
+const backIdiomText = document.getElementById('backIdiomText');
+const banglaMeaning = document.getElementById('banglaMeaning');
+const englishMeaning = document.getElementById('englishMeaning');
+const sentenceEn = document.getElementById('sentenceEn');
+const sentenceBn = document.getElementById('sentenceBn');
+const origin = document.getElementById('origin');
+const tabNum = document.getElementById('tabNum');
+const cardNum = document.getElementById('cardNum');
+const cardTotal = document.getElementById('cardTotal');
+const progressFill = document.getElementById('progressFill');
+const dotsWrap = document.getElementById('dots');
+const starBtn = document.getElementById('starBtn');
+const starCount = document.getElementById('starCount');
+const flipBtn = document.getElementById('flipBtn');
+
+cardTotal.textContent = idioms.length;
+
+function buildDots(){
+  dotsWrap.innerHTML = '';
+  order.forEach((idx, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===pos?' active':'') + (starred.has(idx)?' starred':'');
+    d.addEventListener('click', ()=>{ pos = i; render(true); });
+    dotsWrap.appendChild(d);
+  });
+}
+
+function render(resetFlip){
+  const idx = order[pos];
+  const item = idioms[idx];
+
+  if(resetFlip !== false){
+    card.classList.remove('flipped');
+    flipBtn.textContent = 'অর্থ দেখুন';
+  }
+
+  idiomText.textContent = item.idiom;
+  backIdiomText.textContent = '"' + item.idiom + '"';
+  banglaMeaning.textContent = item.banglaMeaning;
+  englishMeaning.textContent = item.englishMeaning;
+  sentenceEn.textContent = item.sentenceEn;
+  sentenceBn.textContent = item.sentenceBn;
+  origin.textContent = item.origin;
+  tabNum.textContent = String(idx+1).padStart(2,'0');
+  cardNum.textContent = pos+1;
+  cardTotal.textContent = order.length;
+  progressFill.style.width = ((pos+1)/order.length*100) + '%';
+
+  starBtn.classList.toggle('active', starred.has(idx));
+  starCount.textContent = starred.size;
+
+  buildDots();
+}
+
+function flip(){
+  const isFlipped = card.classList.toggle('flipped');
+  playSlideSound();
+  flipBtn.textContent = isFlipped ? 'কার্ড উল্টান' : 'অর্থ দেখুন';
+  if(isFlipped && currentDayIndex !== null){
+    daySeenSet.add(order[pos]);
+    if(daySeenSet.size === order.length && !dayPlan.completedDays[currentDayIndex]){
+      dayPlan.completedDays[currentDayIndex] = true;
+      saveDayPlan();
+      const finishedDay = currentDayIndex;
+      setTimeout(()=> promptDayComplete(finishedDay), 350);
+    }
+  }
+}
+
+function next(){
+  pos = (pos+1) % order.length;
+  playSlideSound();
+  render();
+}
+function prev(){
+  pos = (pos-1+order.length) % order.length;
+  playSlideSound();
+  render();
+}
+function shuffleDeck(){
+  for(let i=order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [order[i],order[j]] = [order[j],order[i]];
+  }
+  pos = 0;
+  render();
+}
+
+card.addEventListener('click', flip);
+flipBtn.addEventListener('click', (e)=>{ e.stopPropagation(); flip(); });
+document.getElementById('nextBtn').addEventListener('click', next);
+document.getElementById('prevBtn').addEventListener('click', prev);
+document.getElementById('shuffleBtn').addEventListener('click', shuffleDeck);
+starBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  const idx = order[pos];
+  if(starred.has(idx)) starred.delete(idx); else starred.add(idx);
+  starBtn.classList.toggle('active', starred.has(idx));
+  starCount.textContent = starred.size;
+  buildDots();
+});
+
+document.addEventListener('keydown', (e)=>{
+  if(e.code === 'Space'){ e.preventDefault(); flip(); }
+  else if(e.code === 'ArrowRight'){ next(); }
+  else if(e.code === 'ArrowLeft'){ prev(); }
+});
+
+// ---------- Fullscreen toggle ----------
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+fullscreenBtn.addEventListener('click', ()=>{
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen?.().catch(()=>{});
+  } else {
+    document.exitFullscreen?.();
+  }
+});
+
+// ---------- List / Search overlay ----------
+const listOverlay = document.getElementById('listOverlay');
+const listToggleBtn = document.getElementById('listToggleBtn');
+const closeListBtn = document.getElementById('closeListBtn');
+const searchInput = document.getElementById('searchInput');
+const listScroll = document.getElementById('listScroll');
+const panelCount = document.getElementById('panelCount');
+const favFilterBtn = document.getElementById('favFilterBtn');
+const starCountBtn = document.getElementById('starCountBtn');
+let favOnly = false;
+
+function renderList(filter){
+  const q = (filter || '').trim().toLowerCase();
+  const matches = idioms
+    .map((item, idx) => ({ item, idx }))
+    .filter(({item, idx}) => {
+      if(favOnly && !starred.has(idx)) return false;
+      if(!q) return true;
+      return item.idiom.toLowerCase().includes(q) ||
+             item.banglaMeaning.toLowerCase().includes(q) ||
+             item.englishMeaning.toLowerCase().includes(q);
+    });
+
+  panelCount.textContent = '(' + matches.length + ' / ' + idioms.length + ')';
+
+  if(matches.length === 0){
+    const msg = favOnly ? 'এখনো কোনো আইডিয়ম ফেভারিট করা হয়নি' : 'কোনো ফলাফল পাওয়া যায়নি';
+    listScroll.innerHTML = '<div class="no-results bangla">' + msg + '</div>';
+    return;
+  }
+
+  listScroll.innerHTML = '';
+  matches.forEach(({item, idx}) => {
+    const row = document.createElement('div');
+    row.className = 'list-item';
+    row.innerHTML = `
+      <div class="li-num">${String(idx+1).padStart(2,'0')}</div>
+      <div class="li-body">
+        <div class="li-idiom">${item.idiom}</div>
+        <div class="li-meaning bangla">${item.banglaMeaning}</div>
+      </div>
+      ${starred.has(idx) ? '<div class="li-star">★</div>' : ''}
+    `;
+    row.addEventListener('click', () => {
+      const foundPos = order.indexOf(idx);
+      pos = foundPos !== -1 ? foundPos : 0;
+      render();
+      closeList();
+    });
+    listScroll.appendChild(row);
+  });
+}
+
+function openList(startFavOnly){
+  favOnly = !!startFavOnly;
+  favFilterBtn.classList.toggle('active', favOnly);
+  listOverlay.classList.add('open');
+  searchInput.value = '';
+  renderList('');
+  setTimeout(()=> searchInput.focus(), 200);
+}
+function closeList(){
+  listOverlay.classList.remove('open');
+}
+
+listToggleBtn.addEventListener('click', ()=> openList(false));
+starCountBtn.addEventListener('click', ()=> openList(true));
+closeListBtn.addEventListener('click', closeList);
+listOverlay.addEventListener('click', (e)=>{ if(e.target === listOverlay) closeList(); });
+searchInput.addEventListener('input', (e)=> renderList(e.target.value));
+favFilterBtn.addEventListener('click', ()=>{
+  favOnly = !favOnly;
+  favFilterBtn.classList.toggle('active', favOnly);
+  renderList(searchInput.value);
+});
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape' && listOverlay.classList.contains('open')) closeList();
+});
+
+// simple swipe support
+let touchStartX = null;
+card.addEventListener('touchstart', (e)=>{ touchStartX = e.touches[0].clientX; });
+card.addEventListener('touchend', (e)=>{
+  if(touchStartX === null) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if(Math.abs(dx) > 50){ dx < 0 ? next() : prev(); }
+  touchStartX = null;
+});
+
+// ---------- Day Plan ----------
+const DAY_PLAN_KEY = 'idiomApp_dayPlan_v1';
+
+function loadDayPlan(){
+  try{
+    const raw = localStorage.getItem(DAY_PLAN_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return { perDay: null, completedDays: {} };
+}
+function saveDayPlan(){
+  try{ localStorage.setItem(DAY_PLAN_KEY, JSON.stringify(dayPlan)); }catch(e){}
+}
+
+let dayPlan = loadDayPlan();
+let currentDayIndex = null;
+let daySeenSet = new Set();
+
+function totalDays(){
+  if(!dayPlan.perDay) return 0;
+  return Math.ceil(idioms.length / dayPlan.perDay);
+}
+function dayIndices(dayIdx){
+  const per = dayPlan.perDay;
+  const startI = dayIdx*per;
+  const endI = Math.min(startI+per, idioms.length);
+  const arr = [];
+  for(let i=startI;i<endI;i++) arr.push(i);
+  return arr;
+}
+
+const dayBadge = document.getElementById('dayBadge');
+const dayBadgeText = document.getElementById('dayBadgeText');
+const exitDayBtn = document.getElementById('exitDayBtn');
+const dayPlanBtn = document.getElementById('dayPlanBtn');
+const dayPlanOverlay = document.getElementById('dayPlanOverlay');
+const closeDayPlanBtn = document.getElementById('closeDayPlanBtn');
+const dayPlanSetup = document.getElementById('dayPlanSetup');
+const dayPlanListWrap = document.getElementById('dayPlanListWrap');
+const perDayInput = document.getElementById('perDayInput');
+const startPlanBtn = document.getElementById('startPlanBtn');
+const resetPlanBtn = document.getElementById('resetPlanBtn');
+const dayPlanRows = document.getElementById('dayPlanRows');
+
+function openDayPlan(){
+  dayPlanOverlay.classList.add('open');
+  if(!dayPlan.perDay){
+    dayPlanSetup.style.display = 'block';
+    dayPlanListWrap.style.display = 'none';
+  } else {
+    dayPlanSetup.style.display = 'none';
+    dayPlanListWrap.style.display = 'block';
+    renderDayPlanRows();
+  }
+}
+function closeDayPlan(){ dayPlanOverlay.classList.remove('open'); }
+
+dayPlanBtn.addEventListener('click', openDayPlan);
+closeDayPlanBtn.addEventListener('click', closeDayPlan);
+dayPlanOverlay.addEventListener('click', (e)=>{ if(e.target === dayPlanOverlay) closeDayPlan(); });
+
+startPlanBtn.addEventListener('click', ()=>{
+  let v = parseInt(perDayInput.value, 10);
+  if(!v || v < 1) v = 10;
+  if(v > idioms.length) v = idioms.length;
+  dayPlan = { perDay: v, completedDays: {} };
+  saveDayPlan();
+  dayPlanSetup.style.display = 'none';
+  dayPlanListWrap.style.display = 'block';
+  renderDayPlanRows();
+});
+
+resetPlanBtn.addEventListener('click', ()=>{
+  if(!confirm('প্ল্যান রিসেট করলে সব দিনের অগ্রগতি মুছে যাবে। আপনি কি নিশ্চিত?')) return;
+  dayPlan = { perDay: null, completedDays: {} };
+  saveDayPlan();
+  dayPlanSetup.style.display = 'block';
+  dayPlanListWrap.style.display = 'none';
+  perDayInput.value = 10;
+  exitDayMode();
+});
+
+function renderDayPlanRows(){
+  dayPlanRows.innerHTML = '';
+  const nDays = totalDays();
+  for(let d=0; d<nDays; d++){
+    const idxs = dayIndices(d);
+    const done = !!dayPlan.completedDays[d];
+    const row = document.createElement('div');
+    row.className = 'day-row';
+    row.innerHTML = `
+      <div class="day-info">
+        <div class="day-title">Day ${d+1}</div>
+        <div class="day-range">Idiom ${idxs[0]+1}–${idxs[idxs.length-1]+1}</div>
+        <div class="day-status ${done ? 'done' : 'pending'} bangla">${done ? '✓ সম্পন্ন' : 'বাকি আছে'}</div>
+      </div>
+      <div class="day-actions">
+        <button class="study-btn bangla">পড়ুন</button>
+        <button class="exam-btn bangla" ${done ? '' : 'disabled'}>পরীক্ষা</button>
+      </div>
+    `;
+    row.querySelector('.study-btn').addEventListener('click', ()=> enterDayMode(d));
+    const examBtn = row.querySelector('.exam-btn');
+    examBtn.addEventListener('click', ()=>{ if(!examBtn.disabled) startExam(d); });
+    dayPlanRows.appendChild(row);
+  }
+}
+
+function enterDayMode(d){
+  currentDayIndex = d;
+  daySeenSet = new Set();
+  order = dayIndices(d);
+  pos = 0;
+  dayBadge.style.display = 'flex';
+  dayBadgeText.textContent = 'Day ' + (d+1);
+  updateDayBadgeExamState();
+  closeDayPlan();
+  render();
+}
+function exitDayMode(){
+  currentDayIndex = null;
+  order = idioms.map((_,i)=>i);
+  pos = 0;
+  dayBadge.style.display = 'none';
+  render();
+}
+exitDayBtn.addEventListener('click', exitDayMode);
+
+const dayBadgeExamBtn = document.getElementById('dayBadgeExamBtn');
+function updateDayBadgeExamState(){
+  const done = currentDayIndex !== null && !!dayPlan.completedDays[currentDayIndex];
+  dayBadgeExamBtn.disabled = !done;
+}
+dayBadgeExamBtn.addEventListener('click', ()=>{
+  if(currentDayIndex === null) return;
+  if(!dayPlan.completedDays[currentDayIndex]){
+    alert('এই দিনের সবগুলো কার্ড অন্তত একবার করে পড়ার পর পরীক্ষা দিতে পারবেন।');
+    return;
+  }
+  startExam(currentDayIndex);
+});
+
+const examEntryBtn = document.getElementById('examEntryBtn');
+examEntryBtn.addEventListener('click', ()=>{
+  if(currentDayIndex !== null){
+    if(!dayPlan.completedDays[currentDayIndex]){
+      alert('এই দিনের সবগুলো কার্ড অন্তত একবার করে পড়ার পর পরীক্ষা দিতে পারবেন।');
+      return;
+    }
+    startExam(currentDayIndex);
+  } else {
+    openExamSetup();
+  }
+});
+
+const examSetupOverlay = document.getElementById('examSetupOverlay');
+const closeExamSetupBtn = document.getElementById('closeExamSetupBtn');
+const fullExamBtn = document.getElementById('fullExamBtn');
+const fullExamCount = document.getElementById('fullExamCount');
+const customExamInput = document.getElementById('customExamInput');
+const customExamBtn = document.getElementById('customExamBtn');
+const examSetupDayPlanBtn = document.getElementById('examSetupDayPlanBtn');
+
+function openExamSetup(){
+  fullExamCount.textContent = idioms.length;
+  customExamInput.max = idioms.length;
+  if(parseInt(customExamInput.value,10) > idioms.length) customExamInput.value = idioms.length;
+  examSetupOverlay.classList.add('open');
+}
+function closeExamSetup(){ examSetupOverlay.classList.remove('open'); }
+
+closeExamSetupBtn.addEventListener('click', closeExamSetup);
+examSetupOverlay.addEventListener('click', (e)=>{ if(e.target === examSetupOverlay) closeExamSetup(); });
+fullExamBtn.addEventListener('click', startFullExam);
+customExamBtn.addEventListener('click', ()=> startCustomExam(customExamInput.value));
+examSetupDayPlanBtn.addEventListener('click', ()=>{ closeExamSetup(); openDayPlan(); });
+
+function promptDayComplete(d){
+  updateDayBadgeExamState();
+  const wantExam = confirm('🎉 Day ' + (d+1) + ' সম্পন্ন হয়েছে!\n\nএখনই এই দিনের পরীক্ষা দিতে চান?');
+  if(wantExam) startExam(d);
+}
+
+// ---------- MCQ Exam Engine ----------
+const examOverlay = document.getElementById('examOverlay');
+const examTitle = document.getElementById('examTitle');
+const closeExamBtn = document.getElementById('closeExamBtn');
+const examProgressFill = document.getElementById('examProgressFill');
+const examQuizView = document.getElementById('examQuizView');
+const examResultView = document.getElementById('examResultView');
+const examQCount = document.getElementById('examQCount');
+const examQuestionText = document.getElementById('examQuestionText');
+const examOptionsWrap = document.getElementById('examOptions');
+const examNextBtn = document.getElementById('examNextBtn');
+const examScoreText = document.getElementById('examScoreText');
+const examReview = document.getElementById('examReview');
+const examRetakeBtn = document.getElementById('examRetakeBtn');
+const examCloseBtn2 = document.getElementById('examCloseBtn2');
+
+let examQuestions = [];
+let examQ = 0;
+let examScore = 0;
+let examAnswered = false;
+let examAnswers = [];
+let examDayForRetake = null;
+
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function pickDistractors(excludeIdx, count, mode){
+  // mode: 'bangla' -> all options from banglaMeaning, 'english' -> all options from englishMeaning
+  const pool = shuffleArr(idioms.map((_,i)=>i).filter(i=>i!==excludeIdx));
+  const options = [];
+  const excludeText = mode === 'english' ? idioms[excludeIdx].englishMeaning : idioms[excludeIdx].banglaMeaning;
+  const usedText = new Set([excludeText]);
+  for(const i of pool){
+    if(options.length >= count) break;
+    const text = mode === 'english' ? idioms[i].englishMeaning : idioms[i].banglaMeaning;
+    if(usedText.has(text)) continue;
+    usedText.add(text);
+    options.push(text);
+  }
+  return options;
+}
+
+function buildExamQuestionsFromIndices(idxs){
+  const questions = idxs.map(idx=>{
+    const item = idioms[idx];
+    const isSentenceType = Math.random() < 0.5;
+    let qText, correct, distractors, hintLabel, hintText;
+    if(isSentenceType){
+      // sentence-based question: options always in Bangla
+      qText = 'এই বাক্যে ব্যবহৃত idiom-টির অর্থ কী?<br><span class="eng-quote">"' + item.sentenceEn + '"</span>';
+      correct = item.banglaMeaning;
+      distractors = pickDistractors(idx, 3, 'bangla');
+      hintLabel = 'English Meaning';
+      hintText = item.englishMeaning;
+    } else {
+      const useEnglish = Math.random() < 0.3; // 30% pure-English option questions
+      if(useEnglish){
+        qText = '"' + item.idiom + '" — Which of these is its correct meaning?';
+        correct = item.englishMeaning;
+        distractors = pickDistractors(idx, 3, 'english');
+        hintLabel = 'বাংলা অর্থ';
+        hintText = item.banglaMeaning;
+      } else {
+        qText = '"' + item.idiom + '" — এই idiom-টির অর্থ কী?';
+        correct = item.banglaMeaning;
+        distractors = pickDistractors(idx, 3, 'bangla');
+        hintLabel = 'English Meaning';
+        hintText = item.englishMeaning;
+      }
+    }
+    const opts = shuffleArr([correct, ...distractors]);
+    return { qText, correct, options: opts, idiomIdx: idx, hintLabel, hintText };
+  });
+  return shuffleArr(questions);
+}
+
+let examRetakeFn = null;
+
+function startExamCore(idxs, title, retakeFn){
+  examQuestions = buildExamQuestionsFromIndices(idxs);
+  examQ = 0;
+  examScore = 0;
+  examAnswers = [];
+  examRetakeFn = retakeFn;
+  examTitle.textContent = title;
+  examResultView.style.display = 'none';
+  examQuizView.style.display = 'block';
+  closeDayPlan();
+  closeExamSetup();
+  examOverlay.classList.add('open');
+  renderExamQuestion();
+}
+
+function startExam(dayIdx){
+  examDayForRetake = dayIdx;
+  startExamCore(dayIndices(dayIdx), 'Day ' + (dayIdx+1) + ' — পরীক্ষা', ()=> startExam(dayIdx));
+}
+
+function startFullExam(){
+  const idxs = idioms.map((_,i)=>i);
+  startExamCore(idxs, 'সম্পূর্ণ তালিকা — পরীক্ষা (' + idxs.length + 'টি)', startFullExam);
+}
+
+function startCustomExam(n){
+  let count = parseInt(n, 10);
+  if(!count || count < 1) count = 10;
+  if(count > idioms.length) count = idioms.length;
+  const idxs = shuffleArr(idioms.map((_,i)=>i)).slice(0, count);
+  startExamCore(idxs, 'কাস্টম পরীক্ষা (' + count + 'টি প্রশ্ন)', ()=> startCustomExam(count));
+}
+
+function renderExamQuestion(){
+  const q = examQuestions[examQ];
+  examAnswered = false;
+  examNextBtn.disabled = true;
+  examNextBtn.textContent = (examQ === examQuestions.length-1) ? 'ফলাফল দেখুন' : 'পরবর্তী';
+  examQCount.textContent = 'প্রশ্ন ' + (examQ+1) + ' / ' + examQuestions.length;
+  examQuestionText.innerHTML = q.qText;
+  examProgressFill.style.width = (examQ/examQuestions.length*100) + '%';
+  examOptionsWrap.innerHTML = '';
+  q.options.forEach(opt=>{
+    const btn = document.createElement('button');
+    btn.className = 'exam-option bangla';
+    btn.textContent = opt;
+    btn.addEventListener('click', ()=> selectExamOption(btn, opt, q));
+    examOptionsWrap.appendChild(btn);
+  });
+  let hintEl = document.getElementById('examHint');
+  if(hintEl) hintEl.remove();
+}
+
+function selectExamOption(btn, opt, q){
+  if(examAnswered) return;
+  examAnswered = true;
+  const isCorrect = opt === q.correct;
+  if(isCorrect){ examScore++; playCorrectSound(); } else { playWrongSound(); }
+  examAnswers.push({ qText: q.qText, chosen: opt, correct: q.correct, isCorrect, hintLabel: q.hintLabel, hintText: q.hintText });
+  Array.from(examOptionsWrap.children).forEach(b=>{
+    b.disabled = true;
+    if(b.textContent === q.correct) b.classList.add('correct');
+    else if(b === btn) b.classList.add('wrong');
+  });
+  if(q.hintText){
+    const hintEl = document.createElement('div');
+    hintEl.id = 'examHint';
+    hintEl.className = 'bangla';
+    hintEl.style.cssText = 'margin-top:14px; padding:12px 14px; background:rgba(255,255,255,0.06); border-radius:10px; font-size:15px; color:#E5E5E5;';
+    hintEl.textContent = q.hintLabel + ': ' + q.hintText;
+    examOptionsWrap.appendChild(hintEl);
+  }
+  examNextBtn.disabled = false;
+}
+
+examNextBtn.addEventListener('click', ()=>{
+  if(examQ < examQuestions.length-1){
+    examQ++;
+    renderExamQuestion();
+  } else {
+    showExamResult();
+  }
+});
+
+function showExamResult(){
+  examProgressFill.style.width = '100%';
+  examQuizView.style.display = 'none';
+  examResultView.style.display = 'block';
+  examScoreText.textContent = examScore + '/' + examQuestions.length;
+  examReview.innerHTML = '';
+  examAnswers.forEach((a,i)=>{
+    const div = document.createElement('div');
+    div.className = 'exam-review-item';
+    div.innerHTML = `
+      <div class="rq bangla">${i+1}. ${a.qText}</div>
+      <div class="${a.isCorrect ? 'ra-correct' : 'ra-wrong'} bangla">তোমার উত্তর: ${a.chosen}</div>
+      ${!a.isCorrect ? '<div class="ra-correct bangla">সঠিক উত্তর: ' + a.correct + '</div>' : ''}
+      ${a.hintText ? '<div class="ra-correct bangla">' + a.hintLabel + ': ' + a.hintText + '</div>' : ''}
+    `;
+    examReview.appendChild(div);
+  });
+}
+
+function closeExam(){ examOverlay.classList.remove('open'); }
+closeExamBtn.addEventListener('click', closeExam);
+examCloseBtn2.addEventListener('click', ()=>{ closeExam(); openDayPlan(); });
+examRetakeBtn.addEventListener('click', ()=>{ if(examRetakeFn) examRetakeFn(); });
+examOverlay.addEventListener('click', (e)=>{ if(e.target === examOverlay) closeExam(); });
+
+render();
+</script>
+</body>
+</html>
